@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フローチャート学習ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .flowchart-symbols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .symbol-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .symbol-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .symbol {
+            width: 80px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .symbol.start { background: #4CAF50; border-radius: 50%; }
+        .symbol.process { background: #2196F3; border-radius: 5px; }
+        .symbol.decision { 
+            background: #FF9800; 
+            transform: rotate(45deg);
+            border-radius: 5px;
+        }
+        .symbol.decision span { transform: rotate(-45deg); }
+        .symbol.input { background: #9C27B0; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); }
+        .symbol.loop { background: #F44336; border-radius: 10px 10px 0 0; }
+        
+        .interactive-example {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .flowchart-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .flow-step.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .flow-box {
+            padding: 15px 30px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            min-width: 200px;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .quiz-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.5);
+            border-color: #4CAF50;
+        }
+        
+        .quiz-option.wrong {
+            background: rgba(244, 67, 54, 0.5);
+            border-color: #F44336;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .code-example {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            overflow-x: auto;
+        }
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .timeline-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .flowchart-symbols {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 フローチャート学習ガイド</h1>
+            <p>システム設計とローコード開発の基礎を楽しく学ぼう！</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 12.5%"></div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('intro')">概要</button>
+            <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
+            <button class="nav-btn" onclick="showSection('examples')">実例</button>
+            <button class="nav-btn" onclick="showSection('user-registration')">ユーザー登録</button>
+            <button class="nav-btn" onclick="showSection('sales-system')">販売システム</button>
+            <button class="nav-btn" onclick="showSection('ec-system')">ECサイト</button>
+            <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
+            <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
+        </div>
+
+        <!-- 概要セクション -->
+        <div id="intro" class="section active">
+            <h2>🎯 システムとフローチャートの世界へようこそ！</h2>
+            
+            <div class="highlight-box">
+                <h3>💡 システムって何？</h3>
+                <p>システムは小さな処理（ボタンクリック、データ入力など）の集合体です。これらの処理をつなぎ合わせることで、決済システムや販売システムなどの大きな仕組みができあがります。</p>
+            </div>
+
+            <div class="interactive-example">
+                <h3>🔄 フローチャートとは？</h3>
+                <p>プロセスやシステムの流れを視覚的に表現する図です。複雑なロジックをシンプルに整理するための強力なツールです。</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="display: inline-block; padding: 20px; background: #667eea; color: white; border-radius: 50%; margin: 10px;">開始</div>
+                    <div style="display: inline-block; margin: 0 20px; font-size: 2em; color: #667eea;">→</div>
+                    <div style="display: inline-block; padding: 20px; background: #2196F3; color: white; border-radius: 10px; margin: 10px;">処理</div>
+                    <div style="display: inline-block; margin: 0 20px; font-size: 2em; color: #667eea;">→</div>
+                    <div style="display: inline-block; padding: 20px; background: #4CAF50; color: white; border-radius: 50%; margin: 10px;">終了</div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div>
+                        <h4>プロセスの可視化</h4>
+                        <p>ロジックや手順を明確にし、実装前に検証できます</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div>
+                        <h4>エラー予防</h4>
+                        <p>事前に流れを整理することで、抜けや重複を発見できます</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div>
+                        <h4>チームコミュニケーション</h4>
+                        <p>全員が同じ図を参照することで、議論がスムーズになります</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 基本記法セクション -->
+        <div id="basics" class="section">
+            <h2>🔧 フローチャートの基本記法</h2>
+            
+            <div class="flowchart-symbols">
+                <div class="symbol-card" onclick="highlightSymbol(this)">
+                    <div class="symbol start">開始</div>
+                    <h4>開始/終了</h4>
+                    <p>楕円形でプロセスの開始と終了を示します</p>
+                </div>
+                
+                <div class="symbol-card" onclick="highlightSymbol(this)">
+                    <div class="symbol process">処理</div>
+                    <h4>処理</h4>
+                    <p>長方形でタスクや操作を表現します</p>
+                </div>
+                
+                <div class="symbol-card" onclick="highlightSymbol(this)">
+                    <div class="symbol decision"><span>判断</span></div>
+                    <h4>判断</h4>
+                    <p>ひし形で条件分岐を示します</p>
+                </div>
+                
+                <div class="symbol-card" onclick="highlightSymbol(this)">
+                    <div class="symbol input">入出力</div>
+                    <h4>入力/出力</h4>
+                    <p>平行四辺形でデータの入出力を表します</p>
+                </div>
+                
+                <div class="symbol-card" onclick="highlightSymbol(this)">
+                    <div class="symbol loop">反復</div>
+                    <h4>反復</h4>
+                    <p>条件を満たす限り同じ処理を繰り返します</p>
+                </div>
+            </div>
+
+            <div class="interactive-example">
+                <h3>📊 処理の種類</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 10px;">
+                        <h4>🔄 順次処理</h4>
+                        <p>処理を上から順番に実行</p>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 10px;">
+                        <h4>🔀 分岐処理</h4>
+                        <p>条件によって処理を分ける</p>
+                    </div>
+                    <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 10px;">
+                        <h4>🔁 反復処理</h4>
+                        <p>条件を満たす間、処理を繰り返す</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 実例セクション -->
+        <div id="examples" class="section">
+            <h2>📋 実例で学ぶフローチャート</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 なぜ実例が大切？</h3>
+                <p>実際のビジネスシナリオを通じて学ぶことで、フローチャートの実用性と効果を体感できます。ここでは3つの代表的なシステムを見ていきましょう。</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                    <h4>👤 ユーザー登録プロセス</h4>
+                    <p>新規ユーザーがサービスに登録する流れ</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                    <h4>📦 販売管理システム</h4>
+                    <p>注文から出荷までの在庫管理フロー</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                    <h4>🛒 ECサイト注文システム</h4>
+                    <p>商品注文から決済完了までの流れ</p>
+                </div>
+            </div>
+
+            <div class="interactive-example">
+                <h3>🔍 それぞれのシステムの特徴</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">✅ <strong>ユーザー登録</strong>: 入力検証 → アカウント作成 → メール認証</li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">✅ <strong>販売管理</strong>: 注文受付 → 在庫確認 → 出荷処理</li>
+                    <li style="padding: 10px 0;">✅ <strong>ECサイト</strong>: 商品選択 → 決済処理 → 注文完了</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ユーザー登録セクション -->
+        <div id="user-registration" class="section">
+            <h2>👤 ユーザー登録プロセス</h2>
+            
+            <div class="interactive-example">
+                <h3>📝 インタラクティブフロー体験</h3>
+                <p>以下のステップをクリックして、ユーザー登録の流れを確認してみましょう：</p>
+                
+                <div class="flowchart-demo">
+                    <div class="flow-step active" onclick="activateStep(0)">
+                        <div class="flow-box" style="background: #4CAF50;">開始</div>
+                        <div class="arrow">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(1)">
+                        <div class="flow-box" style="background: #2196F3;">ユーザー情報入力</div>
+                        <div class="arrow">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(2)">
+                        <div class="flow-box" style="background: #FF9800;">入力内容の確認</div>
+                        <div style="display: flex; gap: 20px; margin-top: 10px;">
+                            <div class="arrow">↓ OK</div>
+                            <div class="arrow">↓ NG</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(3)">
+                            <div class="flow-box" style="background: #4CAF50;">アカウント作成</div>
+                        </div>
+                        
+                        <div class="flow-step" onclick="activateStep(4)">
+                            <div class="flow-box" style="background: #F44336;">エラー表示</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="step-explanation" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h4>🎯 開始</h4>
+                    <p>ユーザー登録プロセスが開始されます。</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">A</div>
+                    <div>
+                        <h4>ユーザー情報入力</h4>
+                        <p>名前、メールアドレス、パスワードなどの必要情報をフォームに入力</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">B</div>
+                    <div>
+                        <h4>入力内容の確認</h4>
+                        <p>入力された情報の整合性や形式の正しさを検証</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">C</div>
+                    <div>
+                        <h4>メール認証</h4>
+                        <p>確認メールを送信し、ユーザーによる認証を実行</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 販売システムセクション -->
+        <div id="sales-system" class="section">
+            <h2>📦 販売管理システム</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 販売システムの重要性</h3>
+                <p>在庫管理は事業運営の根幹です。適切なフローにより、欠品や過剰在庫を防ぎ、顧客満足度を向上させることができます。</p>
+            </div>
+
+            <div class="interactive-example">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px;">
+                        <h4>📋 注文受付</h4>
+                        <p>ユーザーからの注文をシステムが受け取り、処理を開始</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 15px;">
+                        <h4>📊 在庫確認</h4>
+                        <p>データベースから商品の在庫状況をリアルタイムでチェック</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 20px; border-radius: 15px;">
+                        <h4>🚚 出荷処理</h4>
+                        <p>在庫確認後、梱包から配送まで一連の出荷作業を実行</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-example">
+                <h4>💡 判断ロジックの例</h4>
+                <pre>
+if (在庫数量 >= 注文数量) {
+    // 在庫十分 → 注文処理へ
+    processOrder();
+} else {
+    // 在庫不足 → 在庫不足通知
+    notifyStockShortage();
+}
+                </pre>
+            </div>
+        </div>
+
+        <!-- ECサイトセクション -->
+        <div id="ec-system" class="section">
+            <h2>🛒 ECサイトの注文システム</h2>
+            
+            <div class="interactive-example">
+                <h3>💳 決済フローの重要性</h3>
+                <p>ECサイトでは決済処理が最も重要な部分です。セキュリティとユーザビリティの両立が求められます。</p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
+                        <div style="background: #4CAF50; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">🛍️</div>
+                        <h4>商品選択</h4>
+                        <p>カートに商品追加</p>
+                    </div>
+                    
+                    <div style="color: #667eea; font-size: 2em;">→</div>
+                    
+                    <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
+                        <div style="background: #FF9800; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">📦</div>
+                        <h4>在庫確認</h4>
+                        <p>商品在庫をチェック</p>
+                    </div>
+                    
+                    <div style="color: #667eea; font-size: 2em;">→</div>
+                    
+                    <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
+                        <div style="background: #2196F3; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">💳</div>
+                        <h4>決済処理</h4>
+                        <p>安全な決済実行</p>
+                    </div>
+                    
+                    <div style="color: #667eea; font-size: 2em;">→</div>
+                    
+                    <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
+                        <div style="background: #9C27B0; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">✅</div>
+                        <h4>注文完了</h4>
+                        <p>ユーザーに通知</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>⚡ エラーハンドリングの重要性</h3>
+                <p>決済エラーや在庫切れなど、様々な例外状況に対する適切な処理が、ユーザー体験の向上につながります。</p>
+            </div>
+        </div>
+
+        <!-- 作り方セクション -->
+        <div id="how-to" class="section">
+            <h2>🛠️ フローチャートの作り方</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div>
+                        <h4>目的の明確化</h4>
+                        <p>何を表現するか、どのプロセスを整理するかを決定します。明確な目的があることで、必要な要素を見極めることができます。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div>
+                        <h4>ステップの洗い出し</h4>
+                        <p>必要な手順や判断ポイントをリストアップ。この段階では細かい順序は気にせず、思いつく限りの要素を書き出しましょう。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div>
+                        <h4>基本記法の適用</h4>
+                        <p>開始・終了、処理、判断などのシンボルを適切に配置。各要素がどのタイプに該当するかを判断します。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">4</div>
+                    <div>
+                        <h4>流れの接続</h4>
+                        <p>各シンボルを矢印で繋ぎ、論理的な順序を表現。分岐がある場合は条件を明確に記載しましょう。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-number">5</div>
+                    <div>
+                        <h4>確認と改善</h4>
+                        <p>整合性や見やすさをチェックし、フィードバックをもとに修正。第三者の目で見てもらうことが重要です。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-example">
+                <h3>💡 作成時のポイント</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #4CAF50;">
+                        <h4>✅ Do（推奨）</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li>• シンプルで分かりやすく</li>
+                            <li>• 条件は具体的に記載</li>
+                            <li>• 矢印の方向を統一</li>
+                        </ul>
+                    </div>
+                    <div style="background: #ffeaea; padding: 20px; border-radius: 10px; border-left: 5px solid #f44336;">
+                        <h4>❌ Don't（注意）</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li>• 複雑すぎる図は避ける</li>
+                            <li>• 曖昧な条件表現</li>
+                            <li>• 矢印の交差を多用</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- クイズセクション -->
+        <div id="quiz" class="section">
+            <h2>🧠 理解度チェッククイズ</h2>
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white; padding: 15px 30px; border-radius: 25px; display: inline-block; font-size: 1.2em; font-weight: bold;">
+                    正解数: <span id="score">0</span> / 3
+                </div>
+            </div>
+            
+            <div class="quiz-section" data-quiz="0">
+                <div class="quiz-question">
+                    問題1: フローチャートでひし形のシンボルが表すものは何ですか？
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 0, false)">処理</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 0, true)">判断</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 0, false)">入出力</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 0, false)">開始・終了</div>
+                </div>
+                <div class="quiz-feedback" style="margin-top: 15px; display: none;"></div>
+            </div>
+
+            <div class="quiz-section" data-quiz="1">
+                <div class="quiz-question">
+                    問題2: ローコード開発においてフローチャートが重要な理由は？
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, false)">プログラミング言語の習得のため</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, true)">ロジック構築をスムーズに学ぶため</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, false)">データベース設計のため</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, false)">UI設計のため</div>
+                </div>
+                <div class="quiz-feedback" style="margin-top: 15px; display: none;"></div>
+            </div>
+
+            <div class="quiz-section" data-quiz="2">
+                <div class="quiz-question">
+                    問題3: ECサイトの注文システムで、決済処理後に失敗した場合の適切な対応は？
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, false)">システムを停止する</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, true)">エラー表示して再試行を促す</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, false)">注文を強制的に確定する</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, false)">ユーザーアカウントを削除する</div>
+                </div>
+                <div class="quiz-feedback" style="margin-top: 15px; display: none;"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="resetQuiz()" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em;">
+                    クイズをリセット
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let quizAnswered = [false, false, false];
+        let correctAnswers = 0;
+        const totalSections = 8;
+        
+        const stepExplanations = [
+            { title: "🎯 開始", text: "ユーザー登録プロセスが開始されます。" },
+            { title: "📝 ユーザー情報入力", text: "名前、メールアドレス、パスワードなどの必要情報をフォームに入力します。" },
+            { title: "🔍 入力内容の確認", text: "入力された情報の整合性や形式の正しさを検証します。" },
+            { title: "✅ アカウント作成", text: "入力内容が正しい場合、データベースに新規ユーザー情報を登録してアカウントを作成します。" },
+            { title: "❌ エラー表示", text: "入力内容に誤りがある場合、エラーメッセージを表示し再入力を促します。" }
+        ];
+
+        function showSection(sectionId) {
+            // すべてのセクションを非表示
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // ナビゲーションボタンの状態更新
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 選択されたセクションを表示
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            // プログレスバーの更新
+            const sectionOrder = ['intro', 'basics', 'examples', 'user-registration', 'sales-system', 'ec-system', 'how-to', 'quiz'];
+            const currentIndex = sectionOrder.indexOf(sectionId);
+            const progressPercent = ((currentIndex + 1) / totalSections) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+        }
+
+        function highlightSymbol(card) {
+            // すべてのカードのハイライトをリセット
+            const cards = document.querySelectorAll('.symbol-card');
+            cards.forEach(c => c.style.transform = '');
+            
+            // 選択されたカードをハイライト
+            card.style.transform = 'translateY(-10px) scale(1.05)';
+            
+            // 2秒後にリセット
+            setTimeout(() => {
+                card.style.transform = '';
+            }, 2000);
+        }
+
+        function activateStep(stepIndex) {
+            // すべてのステップを非アクティブに
+            const steps = document.querySelectorAll('.flow-step');
+            steps.forEach(step => step.classList.remove('active'));
+            
+            // 選択されたステップまでをアクティブに
+            for (let i = 0; i <= stepIndex; i++) {
+                steps[i].classList.add('active');
+            }
+            
+            // 説明を更新
+            const explanation = document.getElementById('step-explanation');
+            if (stepExplanations[stepIndex]) {
+                explanation.innerHTML = `
+                    <h4>${stepExplanations[stepIndex].title}</h4>
+                    <p>${stepExplanations[stepIndex].text}</p>
+                `;
+            }
+            
+            currentStep = stepIndex;
+        }
+
+        function selectAnswer(option, quizIndex, isCorrect) {
+            // 既に回答済みの場合は何もしない
+            if (quizAnswered[quizIndex]) {
+                return;
+            }
+            
+            const quizSection = option.closest('.quiz-section');
+            const allOptions = quizSection.querySelectorAll('.quiz-option');
+            const feedback = quizSection.querySelector('.quiz-feedback');
+            
+            // すべてのオプションからクラスを削除
+            allOptions.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.style.pointerEvents = 'none'; // クリック無効化
+            });
+            
+            // 正解/不正解のクラスを追加
+            if (isCorrect) {
+                option.classList.add('correct');
+                correctAnswers++;
+                showFeedback(feedback, "正解です！ 🎉", true);
+            } else {
+                option.classList.add('wrong');
+                // 正解の選択肢を表示
+                allOptions.forEach(opt => {
+                    const onclickStr = opt.getAttribute('onclick');
+                    if (onclickStr && onclickStr.includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                showFeedback(feedback, "残念！ 正解は緑色のオプションです。😊", false);
+            }
+            
+            // クイズの回答状態を更新
+            quizAnswered[quizIndex] = true;
+            
+            // スコアを更新
+            updateScore();
+        }
+
+        function showFeedback(feedbackElement, message, isCorrect) {
+            feedbackElement.style.display = 'block';
+            feedbackElement.innerHTML = `
+                <div style="padding: 15px; background: ${isCorrect ? 'rgba(76, 175, 80, 0.2)' : 'rgba(255, 193, 7, 0.2)'}; 
+                     border-radius: 10px; border-left: 5px solid ${isCorrect ? '#4CAF50' : '#FFC107'};">
+                    ${message}
+                </div>
+            `;
+        }
+
+        function updateScore() {
+            const scoreElement = document.getElementById('score');
+            if (scoreElement) {
+                scoreElement.textContent = correctAnswers;
+            }
+        }
+
+        function resetQuiz() {
+            // すべてのオプションからクラスを削除とクリック有効化
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.style.pointerEvents = 'auto'; // クリック有効化
+            });
+            
+            // フィードバックを非表示
+            const feedbacks = document.querySelectorAll('.quiz-feedback');
+            feedbacks.forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            // 回答状態とスコアをリセット
+            quizAnswered = [false, false, false];
+            correctAnswers = 0;
+            updateScore();
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 最初のステップをアクティブに
+            activateStep(0);
+            // スコア表示を初期化
+            updateScore();
+        });
+    </script>
+</body>
+</html>
+
+        <!-- 
