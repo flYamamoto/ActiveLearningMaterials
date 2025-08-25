@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フローチャート演習問題</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #9f7aea 0%, #2563eb 50%, #06b6d4 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        /* Header styles */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1rem;
+            display: inline-block;
+        }
+        
+        .progress-text {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 16rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            height: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            height: 0.75rem;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Problem navigation */
+        .problem-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .problem-nav {
+                grid-template-columns: repeat(9, 1fr);
+            }
+        }
+        
+        .nav-button {
+            position: relative;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            transform-origin: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-button.active {
+            background: white;
+            color: #9f7aea;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-button:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .nav-button:not(.active):hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .completed-check {
+            position: absolute;
+            top: -0.25rem;
+            right: -0.25rem;
+            background: #10b981;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+        }
+        
+        .difficulty-indicator {
+            position: absolute;
+            bottom: 0.25rem;
+            left: 0.25rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+        }
+        
+        .difficulty-basic { background: #10b981; }
+        .difficulty-intermediate { background: #eab308; }
+        .difficulty-advanced { background: #ef4444; }
+        
+        /* Problem card */
+        .problem-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .problem-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .problem-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .problem-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .complete-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .complete-button.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .complete-button:not(.completed) {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .complete-button:not(.completed):hover {
+            background: #dcfce7;
+        }
+        
+        /* Content sections */
+        .description-box {
+            background: linear-gradient(135deg, #dbeafe, #f3e8ff);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .description-text {
+            font-size: 1.125rem;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        @media (min-width: 768px) {
+            .elements-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .element-card {
+            background: #dbeafe;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+            color: #1e40af;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            white-space: pre-line;
+        }
+        
+        .info-box {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid;
+        }
+        
+        .info-box.yellow {
+            background: #fefce8;
+            border-color: #facc15;
+        }
+        
+        .info-box.orange {
+            background: #fff7ed;
+            border-color: #fb923c;
+        }
+        
+        .info-box.blue {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: #eff6ff;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .requirement-number {
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+        
+        /* Hints section */
+        .hint-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .hint-button:hover {
+            background: linear-gradient(135deg, #9333ea, #db2777);
+        }
+        
+        .hints-container {
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #faf5ff, #fdf2f8);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #e879f9;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .hints-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #7c2d91;
+            margin-bottom: 0.75rem;
+        }
+        
+        .hints-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .hint-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hint-number {
+            background: #a855f7;
+            color: white;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .hint-text {
+            color: #7c2d91;
+        }
+        
+        /* Answer area */
+        .answer-area {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 1rem;
+        }
+        
+        .answer-canvas {
+            background: white;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .canvas-placeholder {
+            text-align: center;
+            color: #9ca3af;
+        }
+        
+        .canvas-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-btn:disabled {
+            background: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-btn:not(:disabled):hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .page-indicator {
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Instructions */
+        .instructions {
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .instructions-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .instructions-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .instructions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .instruction-section h4 {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instruction-list li {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.25rem;
+        }
+        
+        .instruction-text {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .problem-title {
+                font-size: 1.25rem;
+            }
+            
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 フローチャート演習問題</h1>
+            <p>実践的な問題を通じてフローチャート作成スキルを習得しよう！</p>
+            <div class="progress-container">
+                <p class="progress-text">完了問題数: <span id="completedCount">0</span> / <span id="totalCount">9</span></p>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Problem Navigation -->
+        <div id="problemNav" class="problem-nav"></div>
+
+        <!-- Current Problem -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <div class="problem-info">
+                    <span id="difficultyBadge" class="difficulty-badge"></span>
+                    <h2 id="problemTitle" class="problem-title"></h2>
+                </div>
+                <button id="completeButton" class="complete-button" onclick="toggleCompleted()"></button>
+            </div>
+
+            <div class="description-box">
+                <p id="problemDescription" class="description-text"></p>
+            </div>
+
+            <!-- Dynamic content sections -->
+            <div id="problemContent"></div>
+
+            <!-- Hints Section -->
+            <div style="margin-bottom: 1.5rem;">
+                <button class="hint-button" onclick="toggleHints()">
+                    <span>💡</span>
+                    <span id="hintButtonText">ヒントを表示</span>
+                </button>
+                
+                <div id="hintsContainer" class="hints-container hidden">
+                    <h4 class="hints-title">🔍 ヒント</h4>
+                    <ul id="hintsList" class="hints-list"></ul>
+                </div>
+            </div>
+
+            <!-- Answer Area -->
+            <div class="answer-area">
+                <h3 class="section-title">📝 回答エリア</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">
+                    こちらに手書きやツールを使ってフローチャートを作成してください。
+                    完了したら「完了にする」ボタンを押してください。
+                </p>
+                <div class="answer-canvas">
+                    <div class="canvas-placeholder">
+                        <div class="canvas-icon">📊</div>
+                        <p>フローチャート作成エリア</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">紙に描くか、フローチャート作成ツールを使用してください</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="bottom-nav">
+            <button id="prevButton" class="nav-btn" onclick="previousProblem()">← 前の問題</button>
+            <div class="page-indicator">
+                <span id="currentProblemNum">1</span> / <span id="totalProblems">9</span>
+            </div>
+            <button id="nextButton" class="nav-btn" onclick="nextProblem()">次の問題 →</button>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3 class="instructions-title">📋 演習の進め方</h3>
+            <div class="instructions-grid">
+                <div class="instruction-section">
+                    <h4>🎯 目的</h4>
+                    <ul class="instruction-list">
+                        <li>• フローチャートの基本シンボルの理解</li>
+                        <li>• 視覚的に論理の流れを整理するスキル習得</li>
+                    </ul>
+                </div>
+                <div class="instruction-section">
+                    <h4>📖 解答について</h4>
+                    <p class="instruction-text">
+                        全問解き終わる、もしくはアウトプットの時間の1時間前になったら、
+                        トレーナーへ報告し、解答をもらってください
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let currentProblem = 1;
+        let completedProblems = new Set();
+        let showHints = {};
+
+        // Problem data
+        const problems = [
+            {
+                id: 1,
+                title: "シンプルなプロセスのフローチャート作成（お茶を入れる）",
+                type: "creation",
+                description: "「お茶を入れる」プロセスについて、フローチャートを作成してください",
+                elements: [
+                    "お茶の完成", "沸騰したお湯を注ぐ", "茶葉を用意する", 
+                    "カップに茶葉を入れる", "抽出を待つ", "開始", "水を沸かす", "終了"
+                ],
+                hints: [
+                    "入力（例：水、茶葉）と出力（例：お茶）を明確にする",
+                    "順序や判断（お茶の濃さの調整など）があれば適宜記述"
+                ],
+                difficulty: "基礎"
+            },
+            {
+                id: 2,
+                title: "フローチャートの解釈と補完",
+                type: "completion",
+                description: "下記の部分的なフローチャートに対して、欠落しているシンボルや矢印を補完してください",
+                flow: "ユーザーが情報を入力する → （？）→ システムが検証する → 結果を出力する",
+                hints: [
+                    "どのシンボルが適切か判断する",
+                    "入力・処理・出力の流れを意識する"
+                ],
+                difficulty: "基礎"
+            },
+            {
+                id: 3,
+                title: "ログインプロセスのフローチャート作成",
+                type: "creation",
+                description: "「ユーザーのログインプロセス」をフローチャートにして設計してください",
+                example: "ユーザーIDとパスワードの入力、認証処理、成功時はダッシュボード表示、失敗時はエラーメッセージの表示と再入力促し",
+                hints: [
+                    "条件分岐（認証成功/失敗）を明確に表現する",
+                    "フィードバックループ（再入力促し）を適切に描く"
+                ],
+                difficulty: "中級"
+            },
+            {
+                id: 4,
+                title: "数値計算アルゴリズムのフローチャート作成",
+                type: "creation",
+                description: "「1からnまでの自然数の合計を計算するアルゴリズム」のフローチャートを作成してください",
+                example: "入力値nの取得、ループ処理で合計値を算出、最終結果の出力",
+                hints: [
+                    "ループ処理（反復処理）の表現方法を習得する",
+                    "初期化、条件チェック、反復処理の各ステップを明確にする"
+                ],
+                difficulty: "中級"
+            },
+            {
+                id: 5,
+                title: "条件分岐の詳細なフローチャート作成",
+                type: "creation",
+                description: "「年齢に応じた入場料の判定システム」をフローチャートにしてください",
+                example: "入力された年齢に基づき、子供（無料）、大人、シニアなどの条件分岐を設定",
+                conditions: "子供は12歳以下、シニアは65歳以上とする",
+                hints: [
+                    "複数の条件分岐を正しく表現する",
+                    "各分岐ごとの処理（料金の決定）を明示する"
+                ],
+                difficulty: "中級"
+            },
+            {
+                id: 6,
+                title: "擬似コードからのフローチャート作成",
+                type: "conversion",
+                description: "下記の擬似コードをフローチャートに変換してください",
+                code: `START
+INPUT n
+SET sum = 0
+FOR i FROM 1 TO n
+    sum = sum + i
+END FOR
+OUTPUT sum
+END`,
+                hints: [
+                    "擬似コードの各行をフローチャートのシンボルに対応させる",
+                    "ループ構造を適切に表現する"
+                ],
+                difficulty: "中級"
+            },
+            {
+                id: 7,
+                title: "ロジックの検証と改善",
+                type: "analysis",
+                description: "右のフローチャートの問題点を指摘・改善する提案を行ってください",
+                hints: [
+                    "ロジックの矛盾や抜けがないか確認する",
+                    "効率化できる部分を検討する",
+                    "エラーハンドリングが適切か確認する"
+                ],
+                difficulty: "上級"
+            },
+            {
+                id: 8,
+                title: "複数分岐を含む業務プロセスのフローチャート作成",
+                type: "creation",
+                description: "「オンラインショップの注文処理システム」のフローチャートを作成してください",
+                example: "ユーザー注文 → 注文情報確認 → 在庫チェック → 在庫があれば決済処理（成功/失敗の分岐） → 注文確定 → 発送手配 → ユーザーへの通知、在庫がなければ在庫不足の通知、など複数の条件分岐を含む",
+                hints: [
+                    "複数の条件分岐を整理して描く",
+                    "エラーケースも含めた完全なフローを作成する",
+                    "ユーザー体験を考慮した処理の流れを設計する"
+                ],
+                difficulty: "上級"
+            },
+            {
+                id: 9,
+                title: "自動株式取引システムのフローチャート作成",
+                type: "creation",
+                description: "「自動株式取引システム」のフローチャートを作成してください",
+                requirements: [
+                    "リアルタイムの市場データを入力として受け取る",
+                    "予め設定した閾値に基づき、買い・売りの判断を行う",
+                    "決済処理後、フィードバックによりシステムが自動的に次の取引戦略を調整する"
+                ],
+                hints: [
+                    "リアルタイムデータの継続的な処理を表現する",
+                    "複雑な判断ロジックを明確に分岐で表現する",
+                    "フィードバックループとシステムの自動調整機能を適切に描く"
+                ],
+                difficulty: "上級"
+            }
+        ];
+
+        // Helper functions
+        function getDifficultyColor(difficulty) {
+            switch(difficulty) {
+                case '基礎': return 'difficulty-basic';
+                case '中級': return 'difficulty-intermediate';
+                case '上級': return 'difficulty-advanced';
+                default: return 'difficulty-basic';
+            }
+        }
+
+        function getDifficultyBadgeColor(difficulty) {
+            switch(difficulty) {
+                case '基礎': return '#10b981';
+                case '中級': return '#eab308';
+                case '上級': return '#ef4444';
+                default: return '#6b7280';
+            }
+        }
+
+        // UI update functions
+        function updateProgressBar() {
+            const completedCount = completedProblems.size;
+            const totalCount = problems.length;
+            const percentage = (completedCount / totalCount) * 100;
+            
+            document.getElementById('completedCount').textContent = completedCount;
+            document.getElementById('totalCount').textContent = totalCount;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function renderProblemNavigation() {
+            const navContainer = document.getElementById('problemNav');
+            navContainer.innerHTML = '';
+            
+            problems.forEach(problem => {
+                const button = document.createElement('button');
+                button.className = `nav-button ${currentProblem === problem.id ? 'active' : ''}`;
+                button.onclick = () => setCurrentProblem(problem.id);
+                
+                button.innerHTML = `
+                    問${problem.id}
+                    ${completedProblems.has(problem.id) ? '<div class="completed-check">✓</div>' : ''}
+                    <div class="difficulty-indicator ${getDifficultyColor(problem.difficulty)}"></div>
+                `;
+                
+                navContainer.appendChild(button);
+            });
+        }
+
+        function renderProblemContent() {
+            const problem = problems.find(p => p.id === currentProblem);
+            
+            // Update basic info
+            const difficultyBadge = document.getElementById('difficultyBadge');
+            difficultyBadge.textContent = problem.difficulty;
+            difficultyBadge.style.backgroundColor = getDifficultyBadgeColor(problem.difficulty);
+            
+            document.getElementById('problemTitle').textContent = `問${problem.id}: ${problem.title}`;
+            document.getElementById('problemDescription').textContent = problem.description;
+            
+            // Update complete button
+            const completeButton = document.getElementById('completeButton');
+            const isCompleted = completedProblems.has(currentProblem);
+            completeButton.className = `complete-button ${isCompleted ? 'completed' : ''}`;
+            completeButton.textContent = isCompleted ? '完了済み ✓' : '完了にする';
+            
+            // Render dynamic content
+            const contentContainer = document.getElementById('problemContent');
+            contentContainer.innerHTML = '';
+            
+            // Elements section
+            if (problem.elements) {
+                const elementsSection = document.createElement('div');
+                elementsSection.style.marginBottom = '1.5rem';
+                elementsSection.innerHTML = `
+                    <h3 class="section-title">📋 使用する要素（順不同）</h3>
+                    <div class="elements-grid">
+                        ${problem.elements.map(element => 
+                            `<div class="element-card">${element}</div>`
+                        ).join('')}
+                    </div>
+                `;
+                contentContainer.appendChild(elementsSection);
+            }
+            
+            // Flow section
+            if (problem.flow) {
+                const flowSection = document.createElement('div');
+                flowSection.style.marginBottom = '1.5rem';
+                flowSection.innerHTML = `
+                    <h3 class="section-title">🔄 フローチャート</h3>
+                    <div class="code-block">${problem.flow}</div>
+                `;
+                contentContainer.appendChild(flowSection);
+            }
+            
+            // Example section
+            if (problem.example) {
+                const exampleSection = document.createElement('div');
+                exampleSection.style.marginBottom = '1.5rem';
+                exampleSection.innerHTML = `
+                    <h3 class="section-title">💡 例</h3>
+                    <div class="info-box yellow">
+                        <p style="color: #374151;">${problem.example}</p>
+                    </div>
+                `;
+                contentContainer.appendChild(exampleSection);
+            }
+            
+            // Conditions section
+            if (problem.conditions) {
+                const conditionsSection = document.createElement('div');
+                conditionsSection.style.marginBottom = '1.5rem';
+                conditionsSection.innerHTML = `
+                    <h3 class="section-title">📏 条件</h3>
+                    <div class="info-box orange">
+                        <p style="color: #374151;">${problem.conditions}</p>
+                    </div>
+                `;
+                contentContainer.appendChild(conditionsSection);
+            }
+            
+            // Code section
+            if (problem.code) {
+                const codeSection = document.createElement('div');
+                codeSection.style.marginBottom = '1.5rem';
+                codeSection.innerHTML = `
+                    <h3 class="section-title">💻 擬似コード</h3>
+                    <div class="code-block">${problem.code}</div>
+                `;
+                contentContainer.appendChild(codeSection);
+            }
+            
+            // Requirements section
+            if (problem.requirements) {
+                const requirementsSection = document.createElement('div');
+                requirementsSection.style.marginBottom = '1.5rem';
+                requirementsSection.innerHTML = `
+                    <h3 class="section-title">⚙️ システム要件</h3>
+                    <ul class="requirements-list">
+                        ${problem.requirements.map((req, index) => `
+                            <li class="requirement-item">
+                                <span class="requirement-number">${index + 1}</span>
+                                <span style="color: #374151;">${req}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                contentContainer.appendChild(requirementsSection);
+            }
+            
+            // Update hints
+            renderHints(problem.hints);
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Update page indicator
+            document.getElementById('currentProblemNum').textContent = currentProblem;
+            document.getElementById('totalProblems').textContent = problems.length;
+        }
+
+        function renderHints(hints) {
+            const hintsList = document.getElementById('hintsList');
+            hintsList.innerHTML = '';
+            
+            hints.forEach((hint, index) => {
+                const hintItem = document.createElement('li');
+                hintItem.className = 'hint-item';
+                hintItem.innerHTML = `
+                    <span class="hint-number">${index + 1}</span>
+                    <span class="hint-text">${hint}</span>
+                `;
+                hintsList.appendChild(hintItem);
+            });
+        }
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            
+            prevButton.disabled = currentProblem === 1;
+            nextButton.disabled = currentProblem === problems.length;
+        }
+
+        // Event handlers
+        function setCurrentProblem(problemId) {
+            currentProblem = problemId;
+            renderProblemNavigation();
+            renderProblemContent();
+            
+            // Hide hints when switching problems
+            const hintsContainer = document.getElementById('hintsContainer');
+            hintsContainer.classList.add('hidden');
+            document.getElementById('hintButtonText').textContent = 'ヒントを表示';
+            showHints[currentProblem] = false;
+        }
+
+        function toggleCompleted() {
+            if (completedProblems.has(currentProblem)) {
+                completedProblems.delete(currentProblem);
+            } else {
+                completedProblems.add(currentProblem);
+            }
+            
+            updateProgressBar();
+            renderProblemNavigation();
+            renderProblemContent();
+        }
+
+        function toggleHints() {
+            const hintsContainer = document.getElementById('hintsContainer');
+            const hintButtonText = document.getElementById('hintButtonText');
+            
+            showHints[currentProblem] = !showHints[currentProblem];
+            
+            if (showHints[currentProblem]) {
+                hintsContainer.classList.remove('hidden');
+                hintButtonText.textContent = 'ヒントを隠す';
+            } else {
+                hintsContainer.classList.add('hidden');
+                hintButtonText.textContent = 'ヒントを表示';
+            }
+        }
+
+        function previousProblem() {
+            if (currentProblem > 1) {
+                setCurrentProblem(currentProblem - 1);
+            }
+        }
+
+        function nextProblem() {
+            if (currentProblem < problems.length) {
+                setCurrentProblem(currentProblem + 1);
+            }
+        }
+
+        // Initialize the application
+        function init() {
+            updateProgressBar();
+            renderProblemNavigation();
+            renderProblemContent();
+        }
+
+        // Start the application when the page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
