@@ -13,20 +13,26 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #9f7aea 0%, #2563eb 50%, #06b6d4 100%);
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+            background: linear-gradient(135deg, #ceeded 0%, #08a3a3 100%);
             min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
+            padding: 20px;
         }
         
         /* Header styles */
         .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 40px;
+            margin-bottom: 20px;
             text-align: center;
-            margin-bottom: 2rem;
+            border-radius: 20px;
         }
         
         .header h1 {
@@ -43,7 +49,7 @@
         }
         
         .progress-container {
-            background: rgba(255, 255, 255, 0.2);
+            /* background: rgba(255, 255, 255, 0.2); */
             backdrop-filter: blur(10px);
             border-radius: 1rem;
             padding: 1rem;
@@ -61,6 +67,7 @@
             border-radius: 9999px;
             height: 0.75rem;
             margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
         
         .progress-fill {
@@ -75,7 +82,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0.75rem;
-            margin-bottom: 2rem;
+            /* margin-bottom: 2rem; */
         }
         
         @media (min-width: 768px) {
@@ -108,6 +115,7 @@
         .nav-button:not(.active) {
             background: rgba(255, 255, 255, 0.2);
             color: white;
+            border: 2px, solid, white;
         }
         
         .nav-button:not(.active):hover {
@@ -525,10 +533,9 @@
                     <div id="progressFill" class="progress-fill" style="width: 0%"></div>
                 </div>
             </div>
+            <!-- Problem Navigation -->
+            <div id="problemNav" class="problem-nav"></div>
         </div>
-
-        <!-- Problem Navigation -->
-        <div id="problemNav" class="problem-nav"></div>
 
         <!-- Current Problem -->
         <div class="problem-card">
