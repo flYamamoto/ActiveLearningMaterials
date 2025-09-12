@@ -28,7 +28,7 @@
         .header {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            padding: 40px;
+            padding: 20px;
             margin-bottom: 20px;
             text-align: center;
             border-radius: 20px;
@@ -45,10 +45,19 @@
             opacity: 0.9;
         }
         
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #3a6794);
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
         .navigation {
             display: flex;
             justify-content: center;
-            margin: 30px;
+            margin: 10px;
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -62,12 +71,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            width: 132px;
         }
         
         .nav-btn:hover, .nav-btn.active {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
             border-color: white;
             transform: translateY(-2px);
+            color: #2c3e50;
         }
         
         .section {
@@ -76,7 +87,7 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: fadeIn 0.5s ease;
         }
         
@@ -760,6 +771,19 @@ if (在庫数量 >= 注文数量) {
                 <button onclick="resetQuiz()" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em;">
                     クイズをリセット
                 </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="navigation">
+                <button class="nav-btn active" onclick="showSection('intro')">概要</button>
+                <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
+                <button class="nav-btn" onclick="showSection('examples')">実例</button>
+                <button class="nav-btn" onclick="showSection('user-registration')">ユーザー登録</button>
+                <button class="nav-btn" onclick="showSection('sales-system')">販売システム</button>
+                <button class="nav-btn" onclick="showSection('ec-system')">ECサイト</button>
+                <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
+                <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
             </div>
         </div>
     </div>
