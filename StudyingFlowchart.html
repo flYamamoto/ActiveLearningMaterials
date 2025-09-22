@@ -73,7 +73,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            width: 132px;
+            width: 120px;
         }
         
         .nav-btn:hover, .nav-btn.active {
@@ -145,6 +145,7 @@
         }
         
         .symbol.common {
+            background-color: #ceeded;
             border:2px solid #1f6460; 
             color: #1f6460;
         }
@@ -153,6 +154,7 @@
 
         .symbol.common.process { border-radius: 5px; }
 
+        /* 条件分岐のひし形_1 */
         .symbol.common.decision { 
             width: 60px;
             height: 60px;
@@ -161,12 +163,46 @@
         }
         .symbol.common.decision span { transform: rotate(-45deg); }
 
+        /* 条件分岐のひし形_2 */
+        .symbol.common.decision-clip{
+            width: 200px;
+            height: 80px;
+            position: relative; /* 擬似要素を配置する基準 */
+            isolation: isolate;
+            background-color: transparent;
+            border: 0px;
+        }
+        
+        .symbol.common.decision-clip span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            background-color: #ceeded;
+            color: #1f6460;
+        }
+
+        .symbol.common.decision-clip::before {
+            content: '';
+            position: absolute;
+            top: -2px;  /* 枠線の太さの半分だけ外側へ */
+            left: -2px;
+            width: calc(100% + 4px); /* 枠線の太さ分だけ大きくする */
+            height: calc(100% + 4px);
+            background-color: #1f6460; /* 枠線の色 */
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            z-index: -1; /* 本体(span)の下に配置 */
+        }
+
         .symbol.common.input {
             z-index: 1;
             position: relative;
             text-align: center;
             padding: 10px; 
             border: 0px;
+            background-color: transparent;
         }
 
         .symbol.common.input::before {
@@ -177,6 +213,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: #d3f3f1;
             border: 2px solid #1f6460; 
             transform: skewX(-35deg);
             border-radius: 5px;
@@ -192,8 +229,9 @@
         .mini-card {
             text-align: left; 
             padding: 20px; 
-            background: #b1e9b4; 
+            background: #fff; 
             border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(163, 163, 163, 0.3);
         }
 
         .mini-card h4 {
@@ -202,7 +240,7 @@
         }
 
         .interactive-example {
-            background: #f8f9fa;
+            background: #e6e6e6;
             padding: 30px;
             border-radius: 15px;
             margin: 20px 0;
@@ -233,6 +271,7 @@
         .flow-box {
             padding: 15px 30px;
             border-radius: 10px;
+            background-color: #36aca5;
             color: white;
             font-weight: bold;
             text-align: center;
@@ -243,7 +282,21 @@
         .arrow {
             font-size: 2em;
             color: #1f6460;
+        }
+
+        .arrow_a {
+            font-size: 2em;
+            color: #1f6460;
             animation: bounce 2s infinite;
+        }
+
+        .step-explanation {
+            width: 70%;
+            background: #ffffff; 
+            padding: 24px; 
+            border: 2px solid #1f6460;
+            border-radius: 10px; 
+            margin: 20px auto;
         }
         
         @keyframes bounce {
@@ -400,9 +453,9 @@
                 <button class="nav-btn active" onclick="showSection('intro')">概要</button>
                 <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
                 <button class="nav-btn" onclick="showSection('examples')">実例</button>
-                <button class="nav-btn" onclick="showSection('user-registration')">ユーザー登録</button>
-                <button class="nav-btn" onclick="showSection('sales-system')">販売システム</button>
-                <button class="nav-btn" onclick="showSection('ec-system')">ECサイト</button>
+                <button class="nav-btn" onclick="showSection('user-registration')">実例①</button>
+                <button class="nav-btn" onclick="showSection('sales-system')">実例②</button>
+                <button class="nav-btn" onclick="showSection('ec-system')">実例③</button>
                 <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
                 <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
             </div>
@@ -424,11 +477,11 @@
                 <p>プロセスやシステムの流れを視覚的に表現する図です。複雑なロジックをシンプルに整理するための強力なツールです。</p>
                 
                 <div style="text-align: center; margin: 30px 0;">
-                    <div style="display: inline-block; padding: 20px; border:2px solid #1f6460; color: #1f6460; border-radius: 50%; margin: 10px;">開始</div>
-                    <div style="display: inline-block; margin: 0 20px; font-size: 2em; color: #1f6460;">→</div>
-                    <div style="display: inline-block; padding: 20px; border:2px solid #1f6460; color: #1f6460; border-radius: 10px; margin: 10px;">処理</div>
-                    <div style="display: inline-block; margin: 0 20px; font-size: 2em; color: #1f6460;">→</div>
-                    <div style="display: inline-block; padding: 20px; border:2px solid #1f6460; color: #1f6460; border-radius: 50%; margin: 10px;">終了</div>
+                    <div class="symbol common start">開始</div>
+                    <div class="arrow">↓</div>
+                    <div class="symbol common process">処理</div>
+                    <div class="arrow">↓</div>
+                    <div class="symbol common start">終了</div>
                 </div>
 
 
@@ -564,7 +617,7 @@
 
         <!-- ユーザー登録セクション -->
         <div id="user-registration" class="section">
-            <h2>👤 ユーザー登録プロセス</h2>
+            <h2>実例①　ユーザー登録プロセス</h2>
             
             <div class="interactive-example">
                 <h3>📝 インタラクティブフロー体験</h3>
@@ -572,41 +625,80 @@
                 
                 <div class="flowchart-demo">
                     <div class="flow-step active" onclick="activateStep(0)">
-                        <div class="flow-box" style="background: #4CAF50;">開始</div>
-                        <div class="arrow">↓</div>
+                        <div class="symbol common start">開始</div>
+                        <div class="arrow_a">↓</div>
                     </div>
                     
                     <div class="flow-step" onclick="activateStep(1)">
-                        <div class="flow-box" style="background: #2196F3;">ユーザー情報入力</div>
-                        <div class="arrow">↓</div>
+                        <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
+                        <div class="arrow_a">↓</div>
                     </div>
                     
                     <div class="flow-step" onclick="activateStep(2)">
-                        <div class="flow-box" style="background: #FF9800;">入力内容の確認</div>
+                        <div class="symbol common decision-clip"><span>入力内容の確認</span></div>
                         <div style="display: flex; gap: 20px; margin-top: 10px;">
-                            <div class="arrow">↓ OK</div>
-                            <div class="arrow">↓ NG</div>
+                            <div class="arrow_a">OK ↓　</div>
+                            <div class="arrow_a">　↓ NG</div>
                         </div>
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
                         <div class="flow-step" onclick="activateStep(3)">
-                            <div class="flow-box" style="background: #4CAF50;">アカウント作成</div>
+                            <div class="symbol common process" style="width:200px;">アカウント作成</div>
+                            <div class="arrow_a">↓</div>
                         </div>
-                        
                         <div class="flow-step" onclick="activateStep(4)">
-                            <div class="flow-box" style="background: #F44336;">エラー表示</div>
+                            <div class="symbol common process" style="width:200px;">エラー表示</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(5)">
+                            <div class="symbol common process" style="width:200px;">メール認証</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div>
+                            <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(6)">
+                            <div class="symbol common decision-clip"><span>認証結果</span></div>
+                            <div style="display: flex; gap: 20px; margin-top: 10px;">
+                                <div class="arrow_a">OK ↓　</div>
+                                <div class="arrow_a">　↓ NG</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(7)">
+                            <div class="symbol common process" style="width:200px;">ログイン画面へ遷移</div>
+                        </div>
+                        <div class="flow-step" onclick="activateStep(8)">
+                            <div class="symbol common process" style="width:200px;">再認証の案内</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div id="step-explanation" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <div id="step-explanation" class="step-explanation">
                     <h4>🎯 開始</h4>
                     <p>ユーザー登録プロセスが開始されます。</p>
                 </div>
             </div>
 
-            <div class="timeline">
+            <!-- <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-number">A</div>
                     <div>
@@ -628,20 +720,18 @@
                         <p>確認メールを送信し、ユーザーによる認証を実行</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- 販売システムセクション -->
         <div id="sales-system" class="section">
-            <h2>📦 販売管理システム</h2>
+            <h2>実例②　販売管理システム</h2>
             
             <div class="highlight-box">
                 <h3>🎯 販売システムの重要性</h3>
                 <p>在庫管理は事業運営の根幹です。適切なフローにより、欠品や過剰在庫を防ぎ、顧客満足度を向上させることができます。</p>
-            </div>
-
-            <div class="interactive-example">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+            
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; color: #333;">
                     <div class="mini-card">
                         <h4>📋 注文受付</h4>
                         <p>ユーザーからの注文をシステムが受け取り、処理を開始</p>
@@ -656,6 +746,72 @@
                         <h4>🚚 出荷処理</h4>
                         <p>在庫確認後、梱包から配送まで一連の出荷作業を実行</p>
                     </div>
+                </div>
+            </div>
+
+            <div class="interactive-example">
+                <p>以下のステップをクリックして、販売管理システムの流れを確認してみましょう：</p>
+                
+                <!-- フローチャート修正中 -->
+                <div class="flowchart-demo">
+                    <div class="flow-step active" onclick="activateStep(9)">
+                        <div class="symbol common start">開始</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(10)">
+                        <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+
+                    <div class="flow-step" onclick="activateStep(11)">
+                        <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(12)">
+                        <div class="symbol common decision-clip"><span>入力内容の確認</span></div>
+                        <div style="display: flex; gap: 20px; margin-top: 10px;">
+                            <div class="arrow_a">OK ↓　</div>
+                            <div class="arrow_a">　↓ NG</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(13)">
+                            <div class="symbol common process" style="width:200px;">アカウント作成</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div class="flow-step" onclick="activateStep(14)">
+                            <div class="symbol common process" style="width:200px;">エラー表示</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(15)">
+                            <div class="symbol common process" style="width:200px;">メール認証</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div>
+                            <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(16)">
+                            <div class="symbol common process" style="width:200px;">ログイン画面へ遷移</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="step-explanation" class="step-explanation">
+                    <h4>🎯 開始</h4>
+                    <p>ユーザー登録プロセスが開始されます。</p>
                 </div>
             </div>
 
@@ -675,7 +831,7 @@ if (在庫数量 >= 注文数量) {
 
         <!-- ECサイトセクション -->
         <div id="ec-system" class="section">
-            <h2>🛒 ECサイトの注文システム</h2>
+            <h2>実例③　ECサイトの注文システム</h2>
             
             <div class="interactive-example">
                 <h3>💳 決済フローの重要性</h3>
@@ -846,9 +1002,9 @@ if (在庫数量 >= 注文数量) {
                 <button class="nav-btn active" onclick="showSection('intro')">概要</button>
                 <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
                 <button class="nav-btn" onclick="showSection('examples')">実例</button>
-                <button class="nav-btn" onclick="showSection('user-registration')">ユーザー登録</button>
-                <button class="nav-btn" onclick="showSection('sales-system')">販売システム</button>
-                <button class="nav-btn" onclick="showSection('ec-system')">ECサイト</button>
+                <button class="nav-btn" onclick="showSection('user-registration')">実例①</button>
+                <button class="nav-btn" onclick="showSection('sales-system')">実例②</button>
+                <button class="nav-btn" onclick="showSection('ec-system')">実例③</button>
                 <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
                 <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
             </div>
@@ -866,7 +1022,18 @@ if (在庫数量 >= 注文数量) {
             { title: "📝 ユーザー情報入力", text: "名前、メールアドレス、パスワードなどの必要情報をフォームに入力します。" },
             { title: "🔍 入力内容の確認", text: "入力された情報の整合性や形式の正しさを検証します。" },
             { title: "✅ アカウント作成", text: "入力内容が正しい場合、データベースに新規ユーザー情報を登録してアカウントを作成します。" },
-            { title: "❌ エラー表示", text: "入力内容に誤りがある場合、エラーメッセージを表示し再入力を促します。" }
+            { title: "❌ エラー表示", text: "アカウント作成後、確認メールを送信しユーザーによる認証を求めます。" },
+            { title: "✉️ メール認証", text: "入力内容に誤りがある場合、エラーメッセージを表示し再入力を促します。" },
+            { title: "🔍 認証結果", text: "ユーザーが認証リンクをクリックするなどして認証が完了したかを確認します。" },
+            { title: "✅ ログイン画面へ遷移", text: "認証に成功したユーザーはログインページへ進み、サービスの利用を開始できます。" },
+            { title: "❌ 再認証の案内", text: "認証に失敗した場合、再度認証を試みるための案内を表示します。" },
+            { title: "❌ 10", text: "aaaa" },
+            { title: "❌ 11", text: "aaaa" },
+            { title: "❌ 12", text: "aaaa" },
+            { title: "❌ 13", text: "aaaa" },
+            { title: "❌ 14", text: "aaaa" },
+            { title: "❌ 15", text: "aaaa" },
+            { title: "❌ 16", text: "aaaa" }
         ];
 
         function showSection(sectionId) {
