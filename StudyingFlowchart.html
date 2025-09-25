@@ -623,18 +623,18 @@
                 <h3>📝 インタラクティブフロー体験</h3>
                 <p>以下のステップをクリックして、ユーザー登録の流れを確認してみましょう：</p>
                 
-                <div class="flowchart-demo">
-                    <div class="flow-step active" onclick="activateStep(0)">
+                <div id="flowchart1" class="flowchart-demo">
+                    <div class="flow-step active" onclick="activateStep(0, 'flowchart1')">
                         <div class="symbol common start">開始</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
-                    <div class="flow-step" onclick="activateStep(1)">
+                    <div class="flow-step" onclick="activateStep(1, 'flowchart1')">
                         <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
-                    <div class="flow-step" onclick="activateStep(2)">
+                    <div class="flow-step" onclick="activateStep(2, 'flowchart1')">
                         <div class="symbol common decision-clip"><span>入力内容の確認</span></div>
                         <div style="display: flex; gap: 20px; margin-top: 10px;">
                             <div class="arrow_a">OK ↓　</div>
@@ -643,17 +643,17 @@
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(3)">
+                        <div class="flow-step" onclick="activateStep(3, 'flowchart1')">
                             <div class="symbol common process" style="width:200px;">アカウント作成</div>
                             <div class="arrow_a">↓</div>
                         </div>
-                        <div class="flow-step" onclick="activateStep(4)">
+                        <div class="flow-step" onclick="activateStep(4, 'flowchart1')">
                             <div class="symbol common process" style="width:200px;">エラー表示</div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(5)">
+                        <div class="flow-step" onclick="activateStep(5, 'flowchart1')">
                             <div class="symbol common process" style="width:200px;">メール認証</div>
                             <div class="arrow_a">↓</div>
                         </div>
@@ -663,7 +663,7 @@
                     </div>
 
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(6)">
+                        <div class="flow-step" onclick="activateStep(6, 'flowchart1')">
                             <div class="symbol common decision-clip"><span>認証結果</span></div>
                             <div style="display: flex; gap: 20px; margin-top: 10px;">
                                 <div class="arrow_a">OK ↓　</div>
@@ -678,10 +678,10 @@
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(7)">
+                        <div class="flow-step" onclick="activateStep(7, 'flowchart1')">
                             <div class="symbol common process" style="width:200px;">ログイン画面へ遷移</div>
                         </div>
-                        <div class="flow-step" onclick="activateStep(8)">
+                        <div class="flow-step" onclick="activateStep(8, 'flowchart1')">
                             <div class="symbol common process" style="width:200px;">再認証の案内</div>
                         </div>
                         <div>
@@ -692,7 +692,7 @@
                     </div>
                 </div>
                 
-                <div id="step-explanation" class="step-explanation">
+                <div id="step-explanation1" class="step-explanation">
                     <h4>🎯 開始</h4>
                     <p>ユーザー登録プロセスが開始されます。</p>
                 </div>
@@ -753,23 +753,23 @@
                 <p>以下のステップをクリックして、販売管理システムの流れを確認してみましょう：</p>
                 
                 <!-- フローチャート修正中 -->
-                <div class="flowchart-demo">
-                    <div class="flow-step active" onclick="activateStep(9)">
+                <div id="flowchart2" class="flowchart-demo">
+                    <div class="flow-step active" onclick="activateStep(0, 'flowchart2')">
                         <div class="symbol common start">開始</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
-                    <div class="flow-step" onclick="activateStep(10)">
+                    <div class="flow-step" onclick="activateStep(1, 'flowchart2')">
                         <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
                         <div class="arrow_a">↓</div>
                     </div>
 
-                    <div class="flow-step" onclick="activateStep(11)">
+                    <div class="flow-step" onclick="activateStep(2, 'flowchart2')">
                         <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
-                    <div class="flow-step" onclick="activateStep(12)">
+                    <div class="flow-step" onclick="activateStep(3, 'flowchart2')">
                         <div class="symbol common decision-clip"><span>入力内容の確認</span></div>
                         <div style="display: flex; gap: 20px; margin-top: 10px;">
                             <div class="arrow_a">OK ↓　</div>
@@ -778,17 +778,17 @@
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(13)">
+                        <div class="flow-step" onclick="activateStep(4, 'flowchart2')">
                             <div class="symbol common process" style="width:200px;">アカウント作成</div>
                             <div class="arrow_a">↓</div>
                         </div>
-                        <div class="flow-step" onclick="activateStep(14)">
+                        <div class="flow-step" onclick="activateStep(5, 'flowchart2')">
                             <div class="symbol common process" style="width:200px;">エラー表示</div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(15)">
+                        <div class="flow-step" onclick="activateStep(6, 'flowchart2')">
                             <div class="symbol common process" style="width:200px;">メール認証</div>
                             <div class="arrow_a">↓</div>
                         </div>
@@ -798,7 +798,7 @@
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(16)">
+                        <div class="flow-step" onclick="activateStep(7, 'flowchart2')">
                             <div class="symbol common process" style="width:200px;">ログイン画面へ遷移</div>
                         </div>
                         <div>
@@ -809,7 +809,7 @@
                     </div>
                 </div>
                 
-                <div id="step-explanation" class="step-explanation">
+                <div id="step-explanation2" class="step-explanation">
                     <h4>🎯 開始</h4>
                     <p>ユーザー登録プロセスが開始されます。</p>
                 </div>
@@ -1027,13 +1027,17 @@ if (在庫数量 >= 注文数量) {
             { title: "🔍 認証結果", text: "ユーザーが認証リンクをクリックするなどして認証が完了したかを確認します。" },
             { title: "✅ ログイン画面へ遷移", text: "認証に成功したユーザーはログインページへ進み、サービスの利用を開始できます。" },
             { title: "❌ 再認証の案内", text: "認証に失敗した場合、再度認証を試みるための案内を表示します。" },
+        ];
+
+        const stepExplanations2 = [
             { title: "❌ 10", text: "aaaa" },
             { title: "❌ 11", text: "aaaa" },
             { title: "❌ 12", text: "aaaa" },
             { title: "❌ 13", text: "aaaa" },
             { title: "❌ 14", text: "aaaa" },
             { title: "❌ 15", text: "aaaa" },
-            { title: "❌ 16", text: "aaaa" }
+            { title: "❌ 16", text: "aaaa" },
+            { title: "❌ 17", text: "aaaa" }
         ];
 
         function showSection(sectionId) {
@@ -1070,9 +1074,12 @@ if (在庫数量 >= 注文数量) {
             }, 2000);
         }
 
-        function activateStep(stepIndex) {
-            // すべてのステップを非アクティブに
-            const steps = document.querySelectorAll('.flow-step');
+        function activateStep(stepIndex, chartId) {
+            // IDで指定されたフローチャートの要素を取得
+            const chartContainer = document.getElementById(chartId);
+
+            // そのフローチャート内のすべてのステップを非アクティブに
+            const steps = chartContainer.querySelectorAll('.flow-step');
             steps.forEach(step => step.classList.remove('active'));
             
             // 選択されたステップまでをアクティブに
@@ -1080,15 +1087,20 @@ if (在庫数量 >= 注文数量) {
                 steps[i].classList.add('active');
             }
             
+            // 説明データを判定
+            const explanations = (chartId === 'flowchart1') ? stepExplanations : stepExplanations2;
+
+            // 説明表示エリアを特定
+            const explanationBoxId = (chartId === 'flowchart1') ? 'step-explanation1' : 'step-explanation2';
+            const explanation = document.getElementById(explanationBoxId);
+
             // 説明を更新
-            const explanation = document.getElementById('step-explanation');
             if (stepExplanations[stepIndex]) {
                 explanation.innerHTML = `
-                    <h4>${stepExplanations[stepIndex].title}</h4>
-                    <p>${stepExplanations[stepIndex].text}</p>
+                    <h4>${explanations[stepIndex].title}</h4>
+                    <p>${explanations[stepIndex].text}</p>
                 `;
             }
-            
             currentStep = stepIndex;
         }
 
