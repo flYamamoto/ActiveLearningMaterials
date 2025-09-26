@@ -760,17 +760,17 @@
                     </div>
                     
                     <div class="flow-step" onclick="activateStep(1, 'flowchart2')">
-                        <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
+                        <div class="symbol common process" style="width:200px">注文受付</div>
                         <div class="arrow_a">↓</div>
                     </div>
 
                     <div class="flow-step" onclick="activateStep(2, 'flowchart2')">
-                        <div class="symbol common process" style="width:200px">ユーザー情報入力</div>
+                        <div class="symbol common process" style="width:200px">在庫確認</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
                     <div class="flow-step" onclick="activateStep(3, 'flowchart2')">
-                        <div class="symbol common decision-clip"><span>入力内容の確認</span></div>
+                        <div class="symbol common decision-clip"><span>在庫は十分か？</span></div>
                         <div style="display: flex; gap: 20px; margin-top: 10px;">
                             <div class="arrow_a">OK ↓　</div>
                             <div class="arrow_a">　↓ NG</div>
@@ -779,17 +779,17 @@
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
                         <div class="flow-step" onclick="activateStep(4, 'flowchart2')">
-                            <div class="symbol common process" style="width:200px;">アカウント作成</div>
+                            <div class="symbol common process" style="width:200px;">注文処理</div>
                             <div class="arrow_a">↓</div>
                         </div>
                         <div class="flow-step" onclick="activateStep(5, 'flowchart2')">
-                            <div class="symbol common process" style="width:200px;">エラー表示</div>
+                            <div class="symbol common process" style="width:200px;">在庫不足通知</div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 40px; justify-content: center;">
                         <div class="flow-step" onclick="activateStep(6, 'flowchart2')">
-                            <div class="symbol common process" style="width:200px;">メール認証</div>
+                            <div class="symbol common process" style="width:200px;">出荷準備</div>
                             <div class="arrow_a">↓</div>
                         </div>
                         <div>
@@ -799,7 +799,7 @@
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
                         <div class="flow-step" onclick="activateStep(7, 'flowchart2')">
-                            <div class="symbol common process" style="width:200px;">ログイン画面へ遷移</div>
+                            <div class="symbol common process" style="width:200px;">出荷完了</div>
                         </div>
                         <div>
                             <div>
@@ -873,6 +873,72 @@ if (在庫数量 >= 注文数量) {
             <div class="highlight-box">
                 <h3>⚡ エラーハンドリングの重要性</h3>
                 <p>決済エラーや在庫切れなど、様々な例外状況に対する適切な処理が、ユーザー体験の向上につながります。</p>
+            </div>
+
+            <div class="interactive-example">
+                <p>以下のステップをクリックして、販売管理システムの流れを確認してみましょう：</p>
+                
+                <!-- フローチャート修正中 -->
+                <div id="flowchart2" class="flowchart-demo">
+                    <div class="flow-step active" onclick="activateStep(0, 'flowchart3')">
+                        <div class="symbol common start">開始</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(1, 'flowchart3')">
+                        <div class="symbol common process" style="width:200px">注文受付</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+
+                    <div class="flow-step" onclick="activateStep(2, 'flowchart3')">
+                        <div class="symbol common process" style="width:200px">在庫確認</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(3, 'flowchart3')">
+                        <div class="symbol common decision-clip"><span>在庫は十分か？</span></div>
+                        <div style="display: flex; gap: 20px; margin-top: 10px;">
+                            <div class="arrow_a">OK ↓　</div>
+                            <div class="arrow_a">　↓ NG</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(4, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">注文処理</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div class="flow-step" onclick="activateStep(5, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">在庫不足通知</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(6, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">出荷準備</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div>
+                            <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(7, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">出荷完了</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="step-explanation2" class="step-explanation">
+                    <h4>🎯 開始</h4>
+                    <p>ユーザー登録プロセスが開始されます。</p>
+                </div>
             </div>
         </div>
 
@@ -1030,14 +1096,25 @@ if (在庫数量 >= 注文数量) {
         ];
 
         const stepExplanations2 = [
-            { title: "❌ 10", text: "aaaa" },
-            { title: "❌ 11", text: "aaaa" },
-            { title: "❌ 12", text: "aaaa" },
-            { title: "❌ 13", text: "aaaa" },
-            { title: "❌ 14", text: "aaaa" },
-            { title: "❌ 15", text: "aaaa" },
-            { title: "❌ 16", text: "aaaa" },
-            { title: "❌ 17", text: "aaaa" }
+            { title: "🎯 開始", text: "ユーザー登録プロセスが開始されます。" },
+            { title: "📋 注文受付", text: "ユーザーからの注文がシステムに入力され、受付処理が開始されます。" },
+            { title: "📊 在庫確認", text: "注文された商品の在庫状況をデータベースからチェックします。" },
+            { title: "🔍 在庫の有無を判断", text: "在庫の有無に基づき、注文処理の実行が可能か判断します。" },
+            { title: "⭕ 在庫がある場合の処理", text: "在庫が十分な場合、注文が確定され、支払い処理や配送手配などの内部処理が開始されます。" },
+            { title: "❌ 在庫がない場合の処理", text: "在庫不足の場合、システムが自動的に在庫不足を通知し、必要な対応（再発注や顧客連絡）を促します。" },
+            { title: "📦 出荷準備", text: "注文確定後、商品の梱包・配送準備が行われます。" },
+            { title: "🚚 出荷完了", text: "出荷作業が完了し、注文処理が終了します。" }
+        ];
+
+        const stepExplanations3 = [
+            { title: "🎯 title31", text: "aaa" },
+            { title: "🎯 title32", text: "aaa" },
+            { title: "🎯 title33", text: "aaa" },
+            { title: "🎯 title34", text: "aaa" },
+            { title: "🎯 title35", text: "aaa" },
+            { title: "🎯 title36", text: "aaa" },
+            { title: "🎯 title37", text: "aaa" },
+            { title: "🎯 title38", text: "aaa" }
         ];
 
         function showSection(sectionId) {
@@ -1088,14 +1165,26 @@ if (在庫数量 >= 注文数量) {
             }
             
             // 説明データを判定
-            const explanations = (chartId === 'flowchart1') ? stepExplanations : stepExplanations2;
+            // const explanations = (chartId === 'flowchart1') ? stepExplanations : stepExplanations2;
+            let explanations;
+            let explanationBoxId;
+            if (chartId === 'flowchart1') {
+                explanations = flow1_Explanations;
+                explanationBoxId = 'step-explanation1';
+            } else if (chartId === 'flowchart2') {
+                explanations = flow2_Explanations;
+                explanationBoxId = 'step-explanation2';
+            } else if (chartId === 'flowchart3') {
+                explanations = flow3_Explanations;
+                explanationBoxId = 'step-explanation3';
+            }
 
             // 説明表示エリアを特定
-            const explanationBoxId = (chartId === 'flowchart1') ? 'step-explanation1' : 'step-explanation2';
+            // const explanationBoxId = (chartId === 'flowchart1') ? 'step-explanation1' : 'step-explanation2';
             const explanation = document.getElementById(explanationBoxId);
 
             // 説明を更新
-            if (stepExplanations[stepIndex]) {
+            if (explanation && explanations[stepIndex]) {
                 explanation.innerHTML = `
                     <h4>${explanations[stepIndex].title}</h4>
                     <p>${explanations[stepIndex].text}</p>
