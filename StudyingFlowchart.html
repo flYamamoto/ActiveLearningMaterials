@@ -226,6 +226,21 @@
             border-radius: 0 0 20px 20px; 
         }
         
+        .ecflow {
+            background-color: white; 
+            color: white; 
+            padding: 15px; 
+            border: 2px solid #36aca5; 
+            border-radius: 50%; 
+            width: 100px; 
+            height: 100px; 
+            margin: 0 auto 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 3em;
+        }
+
         .mini-card {
             text-align: left; 
             padding: 20px; 
@@ -306,7 +321,7 @@
         }
         
         .quiz-section {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0065ad, #56a0d4);
             color: white;
             padding: 30px;
             border-radius: 15px;
@@ -442,7 +457,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌟 フローチャート学習ガイド</h1>
+            <h1>フローチャート学習ガイド</h1>
             <p>システム設計とローコード開発の基礎を楽しく学ぼう！</p>
 
                 <div class="progress-bar">
@@ -450,14 +465,14 @@
             </div>
 
             <div class="navigation">
-                <button class="nav-btn active" onclick="showSection('intro')">概要</button>
-                <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
-                <button class="nav-btn" onclick="showSection('examples')">実例</button>
-                <button class="nav-btn" onclick="showSection('user-registration')">実例①</button>
-                <button class="nav-btn" onclick="showSection('sales-system')">実例②</button>
-                <button class="nav-btn" onclick="showSection('ec-system')">実例③</button>
-                <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
-                <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
+                <button class="nav-btn active" onclick="showSection('intro', this)" data-section-id="intro">概要</button>
+                <button class="nav-btn" onclick="showSection('basics', this)" data-section-id="basics">基本記法</button>
+                <button class="nav-btn" onclick="showSection('examples', this)" data-section-id="examples">実例</button>
+                <button class="nav-btn" onclick="showSection('user-registration', this)" data-section-id="user-registration">実例①</button>
+                <button class="nav-btn" onclick="showSection('sales-system', this)" data-section-id="sales-system">実例②</button>
+                <button class="nav-btn" onclick="showSection('ec-system', this)" data-section-id="ec-system">実例③</button>
+                <button class="nav-btn" onclick="showSection('how-to', this)" data-section-id="how-to">作り方</button>
+                <button class="nav-btn" onclick="showSection('quiz', this)" data-section-id="quiz">クイズ</button>
             </div>
         </div>
 
@@ -465,15 +480,15 @@
 
         <!-- 概要セクション -->
         <div id="intro" class="section active">
-            <h2>🎯 システムとフローチャートの世界へようこそ！</h2>
+            <h2>システムとフローチャートの世界へようこそ！</h2>
             
             <div class="highlight-box">
-                <h3>💡 システムって何？</h3>
+                <h3>システムって何？</h3>
                 <p>システムは小さな処理（ボタンクリック、データ入力など）の集合体です。これらの処理をつなぎ合わせることで、決済システムや販売システムなどの大きな仕組みができあがります。</p>
             </div>
 
             <div class="interactive-example">
-                <h3>🔄 フローチャートとは？</h3>
+                <h3>フローチャートとは？</h3>
                 <p>プロセスやシステムの流れを視覚的に表現する図です。複雑なロジックをシンプルに整理するための強力なツールです。</p>
                 
                 <div style="text-align: center; margin: 30px 0;">
@@ -486,7 +501,7 @@
 
 
                 <div class="timeline">
-                    <h3>💡 Point</h3>
+                    <h3>Point</h3>
                     <div class="timeline-item">
                         <div class="timeline-number">1</div>
                         <div>
@@ -516,7 +531,7 @@
 
         <!-- 基本記法セクション -->
         <div id="basics" class="section">
-            <h2>🔧 フローチャートの基本記法</h2>
+            <h2>フローチャートの基本記法</h2>
             
             <div class="flowchart-symbols">
                 <div class="symbol-card" onclick="highlightSymbol(this)">
@@ -559,7 +574,7 @@
             </div>
 
             <div class="interactive-example">
-                <h3>📊 処理の種類</h3>
+                <h3>処理の種類</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
                     <div class="mini-card">
                         <h4>🔄 順次処理</h4>
@@ -579,10 +594,10 @@
 
         <!-- 実例セクション -->
         <div id="examples" class="section">
-            <h2>📋 実例で学ぶフローチャート</h2>
+            <h2>実例で学ぶフローチャート</h2>
             
             <div class="highlight-box">
-                <h3>🎯 なぜ実例が大切？</h3>
+                <h3>なぜ実例が大切？</h3>
                 <p>実際のビジネスシナリオを通じて学ぶことで、フローチャートの実用性と効果を体感できます。ここでは3つの代表的なシステムを見ていきましょう。</p>
             </div>
 
@@ -606,7 +621,7 @@
                     </div>
                 </div>
 
-                <h3>🔍 それぞれのシステムの特徴</h3>
+                <h3>それぞれのシステムの特徴</h3>
                 <ul style="list-style: none; padding: 0;">
                     <li style="padding: 10px 0; border-bottom: 1px solid #eee;">✅ <strong>ユーザー登録</strong>: 入力検証 → アカウント作成 → メール認証</li>
                     <li style="padding: 10px 0; border-bottom: 1px solid #eee;">✅ <strong>販売管理</strong>: 注文受付 → 在庫確認 → 出荷処理</li>
@@ -620,7 +635,7 @@
             <h2>実例①　ユーザー登録プロセス</h2>
             
             <div class="interactive-example">
-                <h3>📝 インタラクティブフロー体験</h3>
+                <h3>インタラクティブフロー体験</h3>
                 <p>以下のステップをクリックして、ユーザー登録の流れを確認してみましょう：</p>
                 
                 <div id="flowchart1" class="flowchart-demo">
@@ -752,7 +767,6 @@
             <div class="interactive-example">
                 <p>以下のステップをクリックして、販売管理システムの流れを確認してみましょう：</p>
                 
-                <!-- フローチャート修正中 -->
                 <div id="flowchart2" class="flowchart-demo">
                     <div class="flow-step active" onclick="activateStep(0, 'flowchart2')">
                         <div class="symbol common start">開始</div>
@@ -811,12 +825,12 @@
                 
                 <div id="step-explanation2" class="step-explanation">
                     <h4>🎯 開始</h4>
-                    <p>ユーザー登録プロセスが開始されます。</p>
+                    <p>販売管理のプロセスが開始されます。</p>
                 </div>
             </div>
 
             <div class="code-example">
-                <h4>💡 判断ロジックの例</h4>
+                <h4>判断ロジックの例</h4>
                 <pre>
 if (在庫数量 >= 注文数量) {
     // 在庫十分 → 注文処理へ
@@ -834,12 +848,12 @@ if (在庫数量 >= 注文数量) {
             <h2>実例③　ECサイトの注文システム</h2>
             
             <div class="interactive-example">
-                <h3>💳 決済フローの重要性</h3>
+                <h3>決済フローの重要性</h3>
                 <p>ECサイトでは決済処理が最も重要な部分です。セキュリティとユーザビリティの両立が求められます。</p>
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
-                        <div style="background: #4CAF50; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">🛍️</div>
+                        <div class="ecflow">🛍️</div>
                         <h4>商品選択</h4>
                         <p>カートに商品追加</p>
                     </div>
@@ -847,7 +861,7 @@ if (在庫数量 >= 注文数量) {
                     <div style="color: #1f6460; font-size: 2em;">→</div>
                     
                     <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
-                        <div style="background: #FF9800; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">📦</div>
+                        <div class="ecflow">📦</div>
                         <h4>在庫確認</h4>
                         <p>商品在庫をチェック</p>
                     </div>
@@ -855,7 +869,7 @@ if (在庫数量 >= 注文数量) {
                     <div style="color: #1f6460; font-size: 2em;">→</div>
                     
                     <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
-                        <div style="background: #2196F3; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">💳</div>
+                        <div class="ecflow">💳</div>
                         <h4>決済処理</h4>
                         <p>安全な決済実行</p>
                     </div>
@@ -863,7 +877,7 @@ if (在庫数量 >= 注文数量) {
                     <div style="color: #1f6460; font-size: 2em;">→</div>
                     
                     <div style="flex: 1; min-width: 200px; text-align: center; padding: 20px;">
-                        <div style="background: #9C27B0; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">✅</div>
+                        <div class="ecflow">✅</div>
                         <h4>注文完了</h4>
                         <p>ユーザーに通知</p>
                     </div>
@@ -871,7 +885,7 @@ if (在庫数量 >= 注文数量) {
             </div>
 
             <div class="highlight-box">
-                <h3>⚡ エラーハンドリングの重要性</h3>
+                <h3>エラーハンドリングの重要性</h3>
                 <p>決済エラーや在庫切れなど、様々な例外状況に対する適切な処理が、ユーザー体験の向上につながります。</p>
             </div>
 
@@ -879,23 +893,28 @@ if (在庫数量 >= 注文数量) {
                 <p>以下のステップをクリックして、販売管理システムの流れを確認してみましょう：</p>
                 
                 <!-- フローチャート修正中 -->
-                <div id="flowchart2" class="flowchart-demo">
+                <div id="flowchart3" class="flowchart-demo">
                     <div class="flow-step active" onclick="activateStep(0, 'flowchart3')">
                         <div class="symbol common start">開始</div>
                         <div class="arrow_a">↓</div>
                     </div>
-                    
+
                     <div class="flow-step" onclick="activateStep(1, 'flowchart3')">
-                        <div class="symbol common process" style="width:200px">注文受付</div>
+                        <div class="symbol common process" style="width:200px">注文入力</div>
+                        <div class="arrow_a">↓</div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="activateStep(2, 'flowchart3')">
+                        <div class="symbol common process" style="width:200px">注文情報確認</div>
                         <div class="arrow_a">↓</div>
                     </div>
 
-                    <div class="flow-step" onclick="activateStep(2, 'flowchart3')">
+                    <div class="flow-step" onclick="activateStep(3, 'flowchart3')">
                         <div class="symbol common process" style="width:200px">在庫確認</div>
                         <div class="arrow_a">↓</div>
                     </div>
                     
-                    <div class="flow-step" onclick="activateStep(3, 'flowchart3')">
+                    <div class="flow-step" onclick="activateStep(4, 'flowchart3')">
                         <div class="symbol common decision-clip"><span>在庫は十分か？</span></div>
                         <div style="display: flex; gap: 20px; margin-top: 10px;">
                             <div class="arrow_a">OK ↓　</div>
@@ -904,28 +923,69 @@ if (在庫数量 >= 注文数量) {
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(4, 'flowchart3')">
-                            <div class="symbol common process" style="width:200px;">注文処理</div>
+                        <div class="flow-step" onclick="activateStep(5, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">決済処理</div>
                             <div class="arrow_a">↓</div>
                         </div>
-                        <div class="flow-step" onclick="activateStep(5, 'flowchart3')">
+                        <div class="flow-step" onclick="activateStep(6, 'flowchart3')">
                             <div class="symbol common process" style="width:200px;">在庫不足通知</div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(6, 'flowchart3')">
-                            <div class="symbol common process" style="width:200px;">出荷準備</div>
+                        <div class="flow-step" onclick="activateStep(7, 'flowchart3')">
+                            <div class="symbol common decision-clip"><span>決済成功？</span></div>
+                            <div style="display: flex; gap: 20px; margin-top: 10px;">
+                                <div class="arrow_a">OK ↓　</div>
+                                <div class="arrow_a">　↓ NG</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(8, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">注文確定</div>
+                            <div class="arrow_a">↓</div>
+                        </div>
+                        <div class="flow-step" onclick="activateStep(9, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">決済エラー通知</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 40px; justify-content: center;">
+                        <div class="flow-step" onclick="activateStep(10, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">発送手配</div>
                             <div class="arrow_a">↓</div>
                         </div>
                         <div>
                             <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
                         </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div style="display: flex; gap: 40px; justify-content: center;">
-                        <div class="flow-step" onclick="activateStep(7, 'flowchart3')">
-                            <div class="symbol common process" style="width:200px;">出荷完了</div>
+                        <div class="flow-step" onclick="activateStep(11, 'flowchart3')">
+                            <div class="symbol common process" style="width:200px;">注文完了通知</div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="symbol common process" style="background-color:transparent; border: transparent; width:200px"></div>
+                            </div>
                         </div>
                         <div>
                             <div>
@@ -935,16 +995,16 @@ if (在庫数量 >= 注文数量) {
                     </div>
                 </div>
                 
-                <div id="step-explanation2" class="step-explanation">
+                <div id="step-explanation3" class="step-explanation">
                     <h4>🎯 開始</h4>
-                    <p>ユーザー登録プロセスが開始されます。</p>
+                    <p>ECサイトでの注文プロセスが開始されます。</p>
                 </div>
             </div>
         </div>
 
         <!-- 作り方セクション -->
         <div id="how-to" class="section">
-            <h2>🛠️ フローチャートの作り方</h2>
+            <h2>フローチャートの作り方</h2>
             
             <div class="timeline">
                 <div class="timeline-item">
@@ -985,10 +1045,10 @@ if (在庫数量 >= 注文数量) {
             </div>
 
             <div class="interactive-example">
-                <h3>💡 作成時のポイント</h3>
+                <h3>作成時のポイント</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
                     <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 5px solid #4CAF50;">
-                        <h4>✅ Do（推奨）</h4>
+                        <h4>✅ 推奨</h4>
                         <ul style="list-style: none; padding: 0;">
                             <li>• シンプルで分かりやすく</li>
                             <li>• 条件は具体的に記載</li>
@@ -996,7 +1056,7 @@ if (在庫数量 >= 注文数量) {
                         </ul>
                     </div>
                     <div style="background: #ffeaea; padding: 20px; border-radius: 10px; border-left: 5px solid #f44336;">
-                        <h4>❌ Don't（注意）</h4>
+                        <h4>❌ 注意</h4>
                         <ul style="list-style: none; padding: 0;">
                             <li>• 複雑すぎる図は避ける</li>
                             <li>• 曖昧な条件表現</li>
@@ -1009,10 +1069,10 @@ if (在庫数量 >= 注文数量) {
 
         <!-- クイズセクション -->
         <div id="quiz" class="section">
-            <h2>🧠 理解度チェッククイズ</h2>
+            <h2>理解度チェッククイズ</h2>
             
             <div style="text-align: center; margin-bottom: 30px;">
-                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white; padding: 15px 30px; border-radius: 25px; display: inline-block; font-size: 1.2em; font-weight: bold;">
+                <div style="background: linear-gradient(135deg, #0065ad, #56a0d4); color: white; padding: 15px 30px; border-radius: 25px; display: inline-block; font-size: 1.2em; font-weight: bold;">
                     正解数: <span id="score">0</span> / 3
                 </div>
             </div>
@@ -1057,7 +1117,7 @@ if (在庫数量 >= 注文数量) {
             </div>
 
             <div style="text-align: center; margin-top: 30px;">
-                <button onclick="resetQuiz()" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em;">
+                <button onclick="resetQuiz()" style="padding: 15px 30px; background: linear-gradient(135deg, #1f6460, #448b88); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em;">
                     クイズをリセット
                 </button>
             </div>
@@ -1065,14 +1125,14 @@ if (在庫数量 >= 注文数量) {
 
         <div class="footer">
             <div class="navigation">
-                <button class="nav-btn active" onclick="showSection('intro')">概要</button>
-                <button class="nav-btn" onclick="showSection('basics')">基本記法</button>
-                <button class="nav-btn" onclick="showSection('examples')">実例</button>
-                <button class="nav-btn" onclick="showSection('user-registration')">実例①</button>
-                <button class="nav-btn" onclick="showSection('sales-system')">実例②</button>
-                <button class="nav-btn" onclick="showSection('ec-system')">実例③</button>
-                <button class="nav-btn" onclick="showSection('how-to')">作り方</button>
-                <button class="nav-btn" onclick="showSection('quiz')">クイズ</button>
+                <button class="nav-btn active" onclick="showSection('intro', this)" data-section-id="intro">概要</button>
+                <button class="nav-btn" onclick="showSection('basics', this)" data-section-id="basics">基本記法</button>
+                <button class="nav-btn" onclick="showSection('examples', this)" data-section-id="examples">実例</button>
+                <button class="nav-btn" onclick="showSection('user-registration', this)" data-section-id="user-registration">実例①</button>
+                <button class="nav-btn" onclick="showSection('sales-system', this)" data-section-id="sales-system">実例②</button>
+                <button class="nav-btn" onclick="showSection('ec-system', this)" data-section-id="ec-system">実例③</button>
+                <button class="nav-btn" onclick="showSection('how-to', this)" data-section-id="how-to">作り方</button>
+                <button class="nav-btn" onclick="showSection('quiz', this)" data-section-id="quiz">クイズ</button>
             </div>
         </div>
     </div>
@@ -1096,7 +1156,7 @@ if (在庫数量 >= 注文数量) {
         ];
 
         const stepExplanations2 = [
-            { title: "🎯 開始", text: "ユーザー登録プロセスが開始されます。" },
+            { title: "🎯 開始", text: "" },
             { title: "📋 注文受付", text: "ユーザーからの注文がシステムに入力され、受付処理が開始されます。" },
             { title: "📊 在庫確認", text: "注文された商品の在庫状況をデータベースからチェックします。" },
             { title: "🔍 在庫の有無を判断", text: "在庫の有無に基づき、注文処理の実行が可能か判断します。" },
@@ -1107,28 +1167,66 @@ if (在庫数量 >= 注文数量) {
         ];
 
         const stepExplanations3 = [
-            { title: "🎯 title31", text: "aaa" },
-            { title: "🎯 title32", text: "aaa" },
-            { title: "🎯 title33", text: "aaa" },
-            { title: "🎯 title34", text: "aaa" },
-            { title: "🎯 title35", text: "aaa" },
-            { title: "🎯 title36", text: "aaa" },
-            { title: "🎯 title37", text: "aaa" },
-            { title: "🎯 title38", text: "aaa" }
+            { title: "🎯 開始", text: "ECサイトでの注文プロセスが開始されます。" },
+            { title: "📋 注文入力", text: "ユーザーが商品を選択し、数量や配送先などの注文情報を入力します。" },
+            { title: "✅ 注文情報確認", text: "システムが入力された注文情報の正確性や必要項目の有無を検証します。" },
+            { title: "📊 在庫確認", text: "注文された商品の在庫状況をデータベースから確認します。" },
+            { title: "🔍 在庫の有無を判断", text: "在庫の有無に基づき、注文処理の実行が可能か判断します。" },
+            { title: "⭕ 在庫がある場合の処理", text: "クレジットカードなどの決済処理を開始します。" },
+            { title: "❌ 在庫がない場合の処理", text: "在庫不足でエラーが発生した場合、エラーメッセージを表示して商品の再選択を促します。" },
+            { title: "🔍 決済の成否を判断", text: "クレジットカードなどの決済処理を開始します。" },
+            { title: "⭕ 決済成功の場合の処理", text: "注文確定へ進み、システム上で記録されます。" },
+            { title: "❌ 決済失敗の場合の処理", text: "決済処理でエラーが発生した場合、エラーメッセージを表示して再試行を促します。" },
+            { title: "📦 発想手配", text: "注文確定後、物流システムと連携し商品の発送手配が行われます。" },
+            { title: "💬 注文完了通知", text: "発送手配完了後、ユーザーに注文が正常に処理された旨の通知が送信されます。" }
         ];
 
-        function showSection(sectionId) {
+        // チャートIDと関連するデータ・表示エリアIDのマッピング
+        const chartMap = {
+            'flowchart1': {
+                explanations: stepExplanations,
+                explanationBoxId: 'step-explanation1'
+            },
+            'flowchart2': {
+                explanations: stepExplanations2,
+                explanationBoxId: 'step-explanation2'
+            },
+            'flowchart3': {
+                explanations: stepExplanations3,
+                explanationBoxId: 'step-explanation3'
+            }
+        };
+
+        function showSection(sectionId, clickedButton) {
             // すべてのセクションを非表示
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => section.classList.remove('active'));
             
+            // 選択されたセクションを表示 (アクティブ化)
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // すべてのナビゲーションボタンを取得 (上部・下部すべて)
+            const allButtons = document.querySelectorAll('.nav-btn'); 
+
+            // すべてのボタンからアクティブクラスを削除
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // sectionIdと一致するターゲットを持つすべてのボタンに active クラスを付与
+            const targetButtons = document.querySelectorAll(`.nav-btn[data-section-id="${sectionId}"]`);
+            targetButtons.forEach(btn => {
+                btn.classList.add('active');
+            });
+
             // ナビゲーションボタンの状態更新
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => btn.classList.remove('active'));
+            // const navButtons = document.querySelectorAll('.nav-btn');
+            // navButtons.forEach(btn => btn.classList.remove('active'));
             
             // 選択されたセクションを表示
-            document.getElementById(sectionId).classList.add('active');
-            event.target.classList.add('active');
+            // document.getElementById(sectionId).classList.add('active');
+            // event.target.classList.add('active');
             
             // プログレスバーの更新
             const sectionOrder = ['intro', 'basics', 'examples', 'user-registration', 'sales-system', 'ec-system', 'how-to', 'quiz'];
@@ -1155,6 +1253,15 @@ if (在庫数量 >= 注文数量) {
             // IDで指定されたフローチャートの要素を取得
             const chartContainer = document.getElementById(chartId);
 
+            // chartMapから対応する設定を取得
+            const settings = chartMap[chartId];
+
+            // chartIdがマップに存在しない場合は処理を終了
+            if (!settings || !chartContainer) {
+                console.error('指定されたチャートIDが見つからないか、設定が定義されていません:', chartId);
+                return;
+            }
+
             // そのフローチャート内のすべてのステップを非アクティブに
             const steps = chartContainer.querySelectorAll('.flow-step');
             steps.forEach(step => step.classList.remove('active'));
@@ -1166,22 +1273,12 @@ if (在庫数量 >= 注文数量) {
             
             // 説明データを判定
             // const explanations = (chartId === 'flowchart1') ? stepExplanations : stepExplanations2;
-            let explanations;
-            let explanationBoxId;
-            if (chartId === 'flowchart1') {
-                explanations = flow1_Explanations;
-                explanationBoxId = 'step-explanation1';
-            } else if (chartId === 'flowchart2') {
-                explanations = flow2_Explanations;
-                explanationBoxId = 'step-explanation2';
-            } else if (chartId === 'flowchart3') {
-                explanations = flow3_Explanations;
-                explanationBoxId = 'step-explanation3';
-            }
 
             // 説明表示エリアを特定
             // const explanationBoxId = (chartId === 'flowchart1') ? 'step-explanation1' : 'step-explanation2';
-            const explanation = document.getElementById(explanationBoxId);
+            // const explanation = document.getElementById(explanationBoxId);
+            const explanations = settings.explanations;
+            const explanation = document.getElementById(settings.explanationBoxId);
 
             // 説明を更新
             if (explanation && explanations[stepIndex]) {
