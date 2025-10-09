@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ管理 学習資料 (RDB vs Excel)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background: linear-gradient(135deg, #ceeded 0%, #65cece 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #1f6460;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            width: 180px; /* ボタン幅を調整 */
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: white;
+            transform: translateY(-2px);
+            color: #2c3e50;
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #1f6460;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #1f6460;
+            padding-bottom: 10px;
+        }
+        
+        .progress-bar {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #ffd723);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .highlight-box {
+            background-color: #ffcec2;
+            border: 3px solid  #ff8566;
+            color: #971e00;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .data-card {
+            background: #dce5f3;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .data-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            color: #1f6460;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .toggle-content {
+            margin-top: 15px;
+            padding: 15px;
+            border-top: 2px solid #a8c1f3;
+            text-align: left;
+            display: none;
+        }
+
+        .table-compare {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .table-compare th, .table-compare td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+        }
+        .table-compare th {
+            background-color: #e5fff6;
+            color: #1f6460;
+        }
+        .table-compare td:first-child {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+        
+        .key-definition {
+            background: #e5fff6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #1f6460;
+        }
+        .key-definition h4 {
+            color: #1f6460;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: #e5fff6;
+            border-radius: 15px;
+            border-left: 5px solid #1f6460;
+            box-shadow: 0 10px 30px rgba(163, 163, 163, 0.3);
+            margin-bottom: 15px;
+        }
+        
+        .timeline-number {
+            background: #1f6460;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .interactive-section {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #a8c1f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>データ管理 学習資料 (RDBとExcel)</h1>
+            <p>ローコード開発に必要なデータベースの基礎を学ぼう！</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn active" onclick="showSection('overview', this)" data-section-id="overview">概要</button>
+                <button class="nav-btn" onclick="showSection('structure', this)" data-section-id="structure">基本構造</button>
+                <button class="nav-btn" onclick="showSection('keys', this)" data-section-id="keys">キーの概念</button>
+                <button class="nav-btn" onclick="showSection('join', this)" data-section-id="join">結合 (JOIN)</button>
+                <button class="nav-btn" onclick="showSection('summary', this)" data-section-id="summary">まとめ</button>
+            </div>
+        </div>
+
+        
+
+        <div id="overview" class="section active">
+            <h2>データベース（RDB）の必要性</h2>
+            
+            <div class="highlight-box">
+                <h3>システム開発にRDBは必須です</h3>
+                <p>ユーザー情報、取引データ、ログ情報など、さまざまなデータを効率的に管理・処理するために、データベースはシステムの中枢としての役割を果たします。</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">整合性とセキュリティ</div>
+                    <div class="toggle-content">
+                        <p>主キー、外部キーなどの制約により、データの一貫性・整合性を維持します。複数のユーザーが同時にアクセスしても正確な処理が行われます。</p>
+                    </div>
+                </div>
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">ローコードとRDB</div>
+                    <div class="toggle-content">
+                        <p>ローコードツールは短時間でアプリを構築できますが、裏側ではリレーショナルデータベース (RDB)が利用されています。</p>
+                        <p>GUIの操作に応じてSQLクエリが自動生成されるため、RDBの基本概念の理解がツールの利便性を最大限に活かす鍵となります。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="section">
+            <h2>RDBとExcelの概念の類似性 </h2>
+            <p>RDBの学習はハードルが高いため、似た性質を持つExcelを使って基本概念を身につけます。どちらも「表形式」のデータ管理を基本としています。</p>
+
+            <table class="table-compare">
+                <thead>
+                    <tr>
+                        <th>Excelの概念</th>
+                        <th>RDBの概念</th>
+                        <th>役割</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="highlightRow(this)">
+                        <td>シート</td>
+                        <td><b>テーブル</b></td>
+                        <td>データの集合体（例：顧客データ全体）</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>行</td>
+                        <td><b>レコード</b></td>
+                        <td>1件のデータ（例：1つの顧客情報）</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>列</td>
+                        <td><b>カラム</b></td>
+                        <td>データの属性（例：顧客ID、名前、住所）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="interactive-section">
+                <h3>ECサイトの例（顧客情報テーブル）</h3>
+                <p style="margin-top:10px;">👇 列（カラム）にあたる項目をクリックして確認</p>
+                <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('顧客ID: 各顧客を一意に識別するキーです。')">
+                        <div class="card-title">顧客ID (カラム)</div>
+                    </div>
+                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('氏名: 顧客の名前という属性です。')">
+                        <div class="card-title">氏名 (カラム)</div>
+                    </div>
+                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('メールアドレス: 顧客の連絡先という属性です。')">
+                        <div class="card-title">メールアドレス (カラム)</div>
+                    </div>
+                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('住所: 顧客の居住地という属性です。')">
+                        <div class="card-title">住所 (カラム)</div>
+                    </div>
+                </div>
+                <p style="margin-top:10px;">これらの項目をまとめて1行分が<b>レコード</b> (1人の顧客情報) になります。</p>
+            </div>
+        </div>
+        
+        <div id="keys" class="section">
+            <h2>主キー (Primary Key) と外部キー (Foreign Key) </h2>
+            <p>これらのキーを用いて、テーブル間のリレーション（関連性）を明確にします。</p>
+
+            <div class="card-grid">
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">主キー (Primary Key)</div>
+                    <div class="key-definition toggle-content">
+                        <h4>定義</h4>
+                        <p>各テーブルで、各レコード (行)を<b>一意に識別する</b>ための項目です。</p>
+                        <h4>ECサイトの例</h4>
+                        <ul>
+                            <li>【顧客情報テーブル】: <b>顧客ID</b> </li>
+                            <li>【商品情報テーブル】: <b>商品ID</b> </li>
+                            <li>【注文情報テーブル】: <b>注文ID</b> </li>
+                        </ul>
+                        <p style="margin-top:10px; font-weight:bold;">氏名や住所のように重複する可能性のあるものは主キーになれません。</p>
+                    </div>
+                </div>
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">外部キー (Foreign Key)</div>
+                    <div class="key-definition toggle-content">
+                        <h4>定義</h4>
+                        <p><b>他のテーブルの主キーを参照</b>する項目です。これにより、テーブル間の関係を作ります。</p>
+                        <h4>ECサイトの例</h4>
+                        <p>【注文情報テーブル】の顧客ID は、<br>【顧客情報テーブル】の顧客IDを参照する外部キーです。</p>
+                        <p style="margin-top:10px;">これにより、「注文5001」が「顧客ID 1（田中一郎さん）」の注文だと分かります。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>複数のテーブルを使う利点</h3>
+            <div class="timeline-item">
+                <div class="timeline-number">1</div>
+                <div>
+                    <h4>データの重複を防ぐ</h4>
+                    <p>顧客情報を一か所にまとめれば、注文情報に毎回住所やメールアドレスを入力する必要がなくなります。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">2</div>
+                <div>
+                    <h4>管理がしやすくなる </h4>
+                    <p>情報に変更があった場合、対応するテーブルのみ更新すればよいため、データの一貫性が保たれます。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="join" class="section">
+            <h2>テーブルの結合 (JOINの概念) </h2>
+            <p><b>JOIN</b>とは、複数のテーブルから関連する情報を組み合わせて、1つの結果として表示する操作です。</p>
+
+            <div class="interactive-section">
+                <h3>ExcelでJOINを再現する：VLOOKUP関数 </h3>
+                <p>VLOOKUP関数を使うと、あるシートから別のシートの情報を引っ張ってくることができます。</p>
+                
+                <div class="data-card" style="background-color: #dce5f3; margin-top: 20px;" onclick="showVlookupExplanation()">
+                    <div class="card-title">VLOOKUPの動きを見る (クリックで展開/非表示)</div>
+                    <div id="vlookup-content" class="toggle-content" style="border-top: none; display:block;">
+                        <p>目的：【注文情報テーブル】に、【顧客情報テーブル】から顧客の氏名を表示する。</p>
+                        <hr style="margin: 10px 0;">
+                        <p>数式例：<b>`=VLOOKUP(B2, Customers!$A$2:$B$10, 2, FALSE)`</b></p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><b>B2</b>：検索値（注文情報の顧客**）</li>
+                            <li><b>Customers!$A$2:$B$10</b>：検索範囲（顧客情報テーブルのデータ範囲）</li>
+                            <li><b>2</b>：取り出す列番号（検索範囲内の2番目の列、つまり氏名）</li>
+                            <li><b>FALSE</b>：検索の型（完全一致で検索する設定）</li>
+                        </ul>
+                        <p style="margin-top: 10px;">➡️ この操作が、RDBにおけるテーブルの結合 (JOIN)の概念と同じ働きをします。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="summary" class="section">
+            <h2>ExcelとRDBの違いを理解するポイント</h2>
+            <p>両者は似ていますが、システム開発で求められる要件ではRDBが優位です。違いを理解しましょう。</p>
+
+            <table class="table-compare">
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>Excel</th>
+                        <th>RDB (リレーショナルデータベース)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="highlightRow(this)">
+                        <td>運用規模</td>
+                        <td>少量〜中量のデータ管理、個人・小規模チーム向き</td>
+                        <td>大量のデータ、複雑な操作、大規模なシステムで利用</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>データの整合性</td>
+                        <td>ユーザーが手動で管理するため、ミスが入りやすい</td>
+                        <td>自動的に制約をかけ、常にデータの一貫性を保つ仕組みがある</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>拡張性/機能</td>
+                        <td>簡単な集計に便利。複雑なクエリ処理や同時アクセスには向かない</td>
+                        <td>高度なクエリやトランザクション管理、セキュリティ管理などが可能</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h3>学習のまとめ</h3>
+                <p>RDBは、データの一貫性を保証するための主キー、外部キーを持つ不可欠な基盤です。</p>
+                <p>Excelの表形式とVLOOKUPを学ぶことで、RDBのテーブル、レコード、JOINの概念を直感的に理解できました。</p>
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        const totalSections = 5;
+        const sectionOrder = ['overview', 'structure', 'keys', 'join', 'summary'];
+
+        function showSection(sectionId, clickedButton) {
+            // すべてのセクションを非表示
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // 選択されたセクションを表示
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // ナビゲーションボタンの状態更新
+            const allButtons = document.querySelectorAll('.nav-btn'); 
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            const targetButtons = document.querySelectorAll(`.nav-btn[data-section-id="${sectionId}"]`);
+            targetButtons.forEach(btn => {
+                btn.classList.add('active');
+            });
+            
+            // プログレスバーの更新
+            const currentIndex = sectionOrder.indexOf(sectionId);
+            const progressPercent = ((currentIndex + 1) / totalSections) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+        }
+
+        function toggleContent(card) {
+            const content = card.querySelector('.toggle-content');
+            if (content) {
+                // アニメーションのために display:none を切り替える前に opacity を操作
+                if (content.style.display === 'block') {
+                    content.style.opacity = '0';
+                    setTimeout(() => {
+                        content.style.display = 'none';
+                    }, 300); // CSS transition time
+                } else {
+                    content.style.display = 'block';
+                    setTimeout(() => {
+                        content.style.opacity = '1';
+                    }, 50);
+                }
+            }
+        }
+        
+        function highlightRow(row) {
+            // すべての行からハイライトを削除
+            const rows = row.closest('tbody').querySelectorAll('tr');
+            rows.forEach(r => r.style.backgroundColor = '');
+            
+            // 選択された行をハイライト
+            row.style.backgroundColor = '#fffacd';
+            
+            // 2秒後にリセット
+            setTimeout(() => {
+                row.style.backgroundColor = '';
+            }, 2000);
+        }
+
+        // VLOOKUPの説明をデフォルトで表示 (display:blockを設定)
+        function showVlookupExplanation() {
+            // 特に何もしない（トグル機能が実装済みのため）
+        }
+
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 最初のセクションをアクティブに
+            showSection('overview', document.querySelector('.nav-btn[data-section-id="overview"]'));
+        });
+    </script>
+</body>
+</html>
