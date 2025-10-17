@@ -139,6 +139,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
+        .data-card.grid {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
         .data-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -176,6 +186,28 @@
         .table-compare td:first-child {
             font-weight: bold;
             background-color: #f5f5f5;
+        }
+
+        .table-excel {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0px 0px 20px 0;
+        }
+        .table-excel th, .table-excel td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        .table-excel th {
+            background-color: #e5fff6;
+            color: #1f6460;
+        }
+        .table-excel td:first-child {
+
+        }
+
+        .table-excel .amount {
+            text-align: right;
         }
         
         .key-definition {
@@ -216,12 +248,16 @@
         }
 
         .interactive-section {
-            background: #f0f8ff;
+            background: #e6e6e6;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
-            border: 1px solid #a8c1f3;
         }
+
+        hr {
+            /* padding: 20px 0; */
+        }
+
     </style>
 </head>
 <body>
@@ -237,13 +273,12 @@
             <div class="navigation">
                 <button class="nav-btn active" onclick="showSection('overview', this)" data-section-id="overview">概要</button>
                 <button class="nav-btn" onclick="showSection('structure', this)" data-section-id="structure">基本構造</button>
+                <button class="nav-btn" onclick="showSection('excel', this)" data-section-id="excel">Excel</button>
                 <button class="nav-btn" onclick="showSection('keys', this)" data-section-id="keys">キーの概念</button>
                 <button class="nav-btn" onclick="showSection('join', this)" data-section-id="join">結合 (JOIN)</button>
                 <button class="nav-btn" onclick="showSection('summary', this)" data-section-id="summary">まとめ</button>
             </div>
         </div>
-
-        
 
         <div id="overview" class="section active">
             <h2>データベース（RDB）の必要性</h2>
@@ -303,22 +338,200 @@
 
             <div class="interactive-section">
                 <h3>ECサイトの例（顧客情報テーブル）</h3>
-                <p style="margin-top:10px;">👇 列（カラム）にあたる項目をクリックして確認</p>
                 <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
-                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('顧客ID: 各顧客を一意に識別するキーです。')">
-                        <div class="card-title">顧客ID (カラム)</div>
+                    <div class="data-card grid">
+                        <div class="card-title">顧客ID</div>
+                        <div>各顧客を一意に識別するキー</div>
                     </div>
-                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('氏名: 顧客の名前という属性です。')">
-                        <div class="card-title">氏名 (カラム)</div>
+                    <div class="data-card grid">
+                        <div class="card-title">氏名</div>
+                        <div>顧客の名前という属性</div>
                     </div>
-                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('メールアドレス: 顧客の連絡先という属性です。')">
-                        <div class="card-title">メールアドレス (カラム)</div>
+                    <div class="data-card grid">
+                        <div class="card-title">メールアドレス</div>
+                        <div>顧客の連絡先という属性</div>
                     </div>
-                    <div class="data-card" style="background-color: #d3f3f1;" onclick="alert('住所: 顧客の居住地という属性です。')">
-                        <div class="card-title">住所 (カラム)</div>
+                    <div class="data-card grid">
+                        <div class="card-title">住所</div>
+                        <div>顧客の居住地という属性</div>
                     </div>
                 </div>
                 <p style="margin-top:10px;">これらの項目をまとめて1行分が<b>レコード</b> (1人の顧客情報) になります。</p>
+            </div>
+        </div>
+
+        <div id="excel" class="section active">
+            <h2>テーブルの作成</h2>
+            <p>ここでは、基本的な3種類のテーブルを例にECサイトの情報管理を考えます。</p>
+            
+            <div style="padding: 30px 0 0 0;">
+                <b>①顧客情報テーブル</b>
+            </div>
+            <table class="table-excel">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">A列: 顧客ID<br>（主キー）</th>
+                        <th>B列: 氏名</th>
+                        <th>C列: メールアドレス</th>
+                        <th>D列: 住所</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="highlightRow(this)">
+                        <td>1</td>
+                        <td>田中 太郎</td>
+                        <td>taro.tanaka@example.com</td>
+                        <td>東京都渋谷区〇〇-△△</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>2</td>
+                        <td>山田 花子</td>
+                        <td>hanako.yamada@example.com</td>
+                        <td>大阪府大阪市〇-△△</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>3</td>
+                        <td>佐藤 真司</td>
+                        <td>shinji.sato@example.com</td>
+                        <td>北海道札幌市△-〇〇</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>4</td>
+                        <td>中村 咲</td>
+                        <td>saki.nakamura@example.com</td>
+                        <td>福岡県福岡市〇△-〇△</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="interactive-section">
+                <b>ポイント</b>
+                <ul style="padding-left: 20px;">
+                    <li>各行は1人の顧客の情報（レコード）</li>
+                    <li>各列は属性（顧客ID、氏名、メールアドレス、住所）</li>
+                    <li>顧客IDは各顧客を一意に識別する【主キー】です。</li>
+                </ul>
+            </div>
+
+            <div style="padding: 40px 0 0 0;">
+                <b>②商品情報テーブル</b>
+            </div>
+            <table class="table-excel">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">A列: 商品ID<br>（主キー）</th>
+                        <th>B列: 商品名</th>
+                        <th>C列: 価格</th>
+                        <th>D列: 在庫数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="highlightRow(this)">
+                        <td>1</td>
+                        <td>スマートフォン</td>
+                        <td class="amount">60,000</td>
+                        <td>25</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>2</td>
+                        <td>ワイヤレスイヤホン</td>
+                        <td class="amount">10,000</td>
+                        <td>50</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>3</td>
+                        <td>ノートPC</td>
+                        <td class="amount">120,000</td>
+                        <td>15</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>4</td>
+                        <td>モバイルバッテリー</td>
+                        <td class="amount">3,000</td>
+                        <td>100</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>4</td>
+                        <td>液晶モニター</td>
+                        <td class="amount">35,000</td>
+                        <td>30</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="interactive-section">
+                <b>ポイント</b>
+                <ul style="padding-left: 20px;">
+                    <li>各行は1つの商品（レコード）</li>
+                    <li>商品IDが主キーとなり、各商品を識別</li>
+                </ul>
+            </div>
+
+            <div style="padding: 40px 0 0 0;">
+                <b>③注文情報テーブル</b>
+            </div>
+            <table class="table-excel">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">A列: 注文ID<br>（主キー）</th>
+                        <th style="width: 150px;">B列: 顧客ID<br>（外部キー）</th>
+                        <th>C列: 注文日</th>
+                        <th>D列: 合計金額</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="highlightRow(this)">
+                        <td>5001</td>
+                        <td>1</td>
+                        <td>2025/02/10</td>
+                        <td class="amount">70,000</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>5002</td>
+                        <td>3</td>
+                        <td>2025/02/11</td>
+                        <td class="amount">10,000</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>5003</td>
+                        <td>2</td>
+                        <td>2025/09/01</td>
+                        <td class="amount">120,000</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>5004</td>
+                        <td>4</td>
+                        <td>2025/09/05</td>
+                        <td class="amount">63,000</td>
+                    </tr>
+                    <tr onclick="highlightRow(this)">
+                        <td>5001</td>
+                        <td>1</td>
+                        <td>2025/09/10</td>
+                        <td class="amount">35,000</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="interactive-section">
+                <b>ポイント</b>
+                <ul style="padding-left: 20px;">
+                    <li>各注文（レコード）は、どの顧客が注文したかを【外部キー】で示す</li>
+                    <li>「顧客ID」は、【顧客情報テーブル】の顧客IDと一致して、注文をどの顧客に紐付けるかを表す</li>
+                </ul>
+            </div>
+
+            <div class="card-grid">
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">整合性とセキュリティ</div>
+                    <div class="toggle-content">
+                        <p>主キー、外部キーなどの制約により、データの一貫性・整合性を維持します。複数のユーザーが同時にアクセスしても正確な処理が行われます。</p>
+                    </div>
+                </div>
+                <div class="data-card" onclick="toggleContent(this)">
+                    <div class="card-title">ローコードとRDB</div>
+                    <div class="toggle-content">
+                        <p>ローコードツールは短時間でアプリを構築できますが、裏側ではリレーショナルデータベース (RDB)が利用されています。</p>
+                        <p>GUIの操作に応じてSQLクエリが自動生成されるため、RDBの基本概念の理解がツールの利便性を最大限に活かす鍵となります。</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -437,8 +650,8 @@
         </div>
 
     <script>
-        const totalSections = 5;
-        const sectionOrder = ['overview', 'structure', 'keys', 'join', 'summary'];
+        const totalSections = 6;
+        const sectionOrder = ['overview', 'structure', 'excel', 'keys', 'join', 'summary'];
 
         function showSection(sectionId, clickedButton) {
             // すべてのセクションを非表示
