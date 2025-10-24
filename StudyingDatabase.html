@@ -43,6 +43,10 @@
             font-size: 1.2em;
             opacity: 0.9;
         }
+
+        h4 {
+            font-size: 1.2em;
+        }
         
         .navigation {
             display: flex;
@@ -155,7 +159,7 @@
         }
 
         .card-title {
-            color: #1f6460;
+            color: #334c75;
             font-size: 1.5em;
             margin-bottom: 10px;
             font-weight: bold;
@@ -174,40 +178,57 @@
             border-collapse: collapse;
             margin: 20px 0;
         }
+
         .table-compare th, .table-compare td {
             border: 1px solid #ddd;
             padding: 15px;
             text-align: center;
         }
+
         .table-compare th {
             background-color: #e5fff6;
             color: #1f6460;
         }
+
         .table-compare td:first-child {
             font-weight: bold;
             background-color: #f5f5f5;
         }
 
-        .table-excel {
+        .table-excel, .table-key {
             width: 100%;
             border-collapse: collapse;
             margin: 0px 0px 20px 0;
         }
+
         .table-excel th, .table-excel td {
             border: 1px solid #ddd;
             padding: 15px;
             text-align: left;
         }
-        .table-excel th {
+
+        .table-excel th, .table-key th{
             background-color: #e5fff6;
             color: #1f6460;
         }
+        
+        .table-excel td, .table-key td {
+            background-color: #fff;
+        }
+
         .table-excel td:first-child {
 
         }
 
         .table-excel .amount {
             text-align: right;
+        }
+
+        .table-key th, .table-key td{
+            border: 1px solid #ddd;
+            padding: 0 10px 0 10px;
+            text-align: left;
+            font-size: 0.6em;
         }
         
         .key-definition {
@@ -254,8 +275,9 @@
             margin-top: 20px;
         }
 
-        hr {
-            /* padding: 20px 0; */
+        .arrow {
+            font-size: 1em;
+            color: #1f6460;
         }
 
     </style>
@@ -273,7 +295,7 @@
             <div class="navigation">
                 <button class="nav-btn active" onclick="showSection('overview', this)" data-section-id="overview">概要</button>
                 <button class="nav-btn" onclick="showSection('structure', this)" data-section-id="structure">基本構造</button>
-                <button class="nav-btn" onclick="showSection('excel', this)" data-section-id="excel">Excel</button>
+                <button class="nav-btn" onclick="showSection('excel', this)" data-section-id="excel">テーブル</button>
                 <button class="nav-btn" onclick="showSection('keys', this)" data-section-id="keys">キーの概念</button>
                 <button class="nav-btn" onclick="showSection('join', this)" data-section-id="join">結合 (JOIN)</button>
                 <button class="nav-btn" onclick="showSection('summary', this)" data-section-id="summary">まとめ</button>
@@ -412,7 +434,7 @@
                 </ul>
             </div>
 
-            <div style="padding: 40px 0 0 0;">
+            <div style="padding: 60px 0 0 0;">
                 <b>②商品情報テーブル</b>
             </div>
             <table class="table-excel">
@@ -465,7 +487,7 @@
                 </ul>
             </div>
 
-            <div style="padding: 40px 0 0 0;">
+            <div style="padding: 60px 0 0 0;">
                 <b>③注文情報テーブル</b>
             </div>
             <table class="table-excel">
@@ -517,22 +539,6 @@
                     <li>「顧客ID」は、【顧客情報テーブル】の顧客IDと一致して、注文をどの顧客に紐付けるかを表す</li>
                 </ul>
             </div>
-
-            <div class="card-grid">
-                <div class="data-card" onclick="toggleContent(this)">
-                    <div class="card-title">整合性とセキュリティ</div>
-                    <div class="toggle-content">
-                        <p>主キー、外部キーなどの制約により、データの一貫性・整合性を維持します。複数のユーザーが同時にアクセスしても正確な処理が行われます。</p>
-                    </div>
-                </div>
-                <div class="data-card" onclick="toggleContent(this)">
-                    <div class="card-title">ローコードとRDB</div>
-                    <div class="toggle-content">
-                        <p>ローコードツールは短時間でアプリを構築できますが、裏側ではリレーショナルデータベース (RDB)が利用されています。</p>
-                        <p>GUIの操作に応じてSQLクエリが自動生成されるため、RDBの基本概念の理解がツールの利便性を最大限に活かす鍵となります。</p>
-                    </div>
-                </div>
-            </div>
         </div>
         
         <div id="keys" class="section">
@@ -542,25 +548,85 @@
             <div class="card-grid">
                 <div class="data-card" onclick="toggleContent(this)">
                     <div class="card-title">主キー (Primary Key)</div>
-                    <div class="key-definition toggle-content">
+                    <div class="toggle-content">
                         <h4>定義</h4>
-                        <p>各テーブルで、各レコード (行)を<b>一意に識別する</b>ための項目です。</p>
+                        <p style="padding-bottom: 20px;">各テーブルで、各レコード (行)を<b>一意に識別する</b>ための項目です。</p>
                         <h4>ECサイトの例</h4>
-                        <ul>
+                        <ul style="padding: 0 0 20px 20px;">
                             <li>【顧客情報テーブル】: <b>顧客ID</b> </li>
                             <li>【商品情報テーブル】: <b>商品ID</b> </li>
                             <li>【注文情報テーブル】: <b>注文ID</b> </li>
                         </ul>
-                        <p style="margin-top:10px; font-weight:bold;">氏名や住所のように重複する可能性のあるものは主キーになれません。</p>
+                        <p style="margin-top:10px; font-weight:bold; color: #971e00;">氏名や住所のように重複する可能性のあるものは主キーになれません。</p>
                     </div>
                 </div>
                 <div class="data-card" onclick="toggleContent(this)">
                     <div class="card-title">外部キー (Foreign Key)</div>
-                    <div class="key-definition toggle-content">
+                    <div class="toggle-content">
                         <h4>定義</h4>
-                        <p><b>他のテーブルの主キーを参照</b>する項目です。これにより、テーブル間の関係を作ります。</p>
+                        <p style="padding-bottom: 20px;"><b>他のテーブルの主キーを参照</b>する項目です。これにより、テーブル間の関係を作ります。</p>
                         <h4>ECサイトの例</h4>
-                        <p>【注文情報テーブル】の顧客ID は、<br>【顧客情報テーブル】の顧客IDを参照する外部キーです。</p>
+                        <p style="padding-bottom: 20px;">【注文情報テーブル】の顧客ID は、【顧客情報テーブル】の顧客IDを参照する外部キーです。</p>
+                        <div style="display: flex;">
+                            <table class="table-key" style="width: 145px;">
+                                <thead>
+                                    <tr>
+                                        <th>A列:<br>注文ID<br>(主キー)</th>
+                                        <th>B列:<br>顧客ID<br>(外部キー)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>5001</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>5002</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>5003</td>
+                                        <td>2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div class="arrow" style="padding-top: 50px;">
+                                ←→
+                            </div>
+
+                            <table class="table-key" style="width: 390px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 70px;">A列:<br>顧客ID<br>(主キー)</th>
+                                        <th style="width: 80px;">B列:<br>氏名</th>
+                                        <th style="width: 110px;">C列:<br>メールアドレス</th>
+                                        <th style="width: 120px;">D列:<br>住所</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>1</td>
+                                        <td>田中 太郎</td>
+                                        <td>taro.tanaka@example.com</td>
+                                        <td>東京都渋谷区〇〇-△△</td>
+                                    </tr>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>2</td>
+                                        <td>山田 花子</td>
+                                        <td>hanako.yamada@example.com</td>
+                                        <td>大阪府大阪市〇-△△</td>
+                                    </tr>
+                                    <tr onclick="highlightRow(this)">
+                                        <td>3</td>
+                                        <td>佐藤 真司</td>
+                                        <td>shinji.sato@example.com</td>
+                                        <td>北海道札幌市△-〇〇</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
                         <p style="margin-top:10px;">これにより、「注文5001」が「顧客ID 1（田中一郎さん）」の注文だと分かります。</p>
                     </div>
                 </div>
